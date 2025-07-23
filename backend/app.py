@@ -1,8 +1,9 @@
 
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 from dotenv import load_dotenv
 from gemini import extract_preferences, generate_story
 from qloo import enrich_preferences
+import os
 
 load_dotenv()
 app = Flask(__name__)
@@ -10,6 +11,14 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    return send_from_directory(os.path.join(app.root_path, 'static'), filename)
+
+@app.route('/Rihla_background.png')
+def serve_background():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'Rihla_background.png')
 
 @app.route("/rihla", methods=["POST"])
 def rihla():

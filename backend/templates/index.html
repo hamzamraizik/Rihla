@@ -1,36 +1,2349 @@
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Riḥla - Voyage AI</title>
+  <title>Riḥla - Journey of the Soul</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    body { font-family: sans-serif; margin: 30px; }
-    textarea { width: 100%; height: 100px; }
-    pre { background: #f0f0f0; padding: 1em; white-space: pre-wrap; }
+    :root {
+      --moroccan-terracotta: #D4704F;
+      --deep-desert: #1A2F47;
+      --sahara-gold: #E6B368;
+      --atlas-blue: #2C5282;
+      --moonlit-cream: #FBF9F6;
+      --warm-sand: #F4F1EA;
+      --soft-shadow: rgba(26, 47, 71, 0.12);
+      --deep-shadow: rgba(26, 47, 71, 0.25);
+      --thread-gold: #FFD700;
+      --thread-copper: #CD7F32;
+      --cosmic-purple: #6B46C1;
+      --mystic-teal: #0D9488;
+      
+      /* Dark theme variables */
+      --dark-primary: #0F1419;
+      --dark-secondary: #1A1F29;
+      --dark-tertiary: #242B3A;
+      --dark-surface: #2A3441;
+      --dark-surface-elevated: #334155;
+      --dark-text-primary: #E2E8F0;
+      --dark-text-secondary: #94A3B8;
+      --dark-text-muted: #64748B;
+      --dark-border: #334155;
+      --dark-accent: #E6B368;
+      --dark-accent-hover: #F4D03F;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--dark-primary) 0%, var(--dark-secondary) 50%, var(--dark-tertiary) 100%);
+      color: var(--dark-text-primary);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+      scroll-behavior: smooth;
+    }
+
+    /* Landing Page Sections */
+    .landing-container {
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      overflow: hidden;
+    }
+
+    .hero-section.has-bg-image {
+      background: 
+        linear-gradient(135deg, rgba(15, 20, 25, 0.7) 0%, rgba(26, 31, 41, 0.8) 100%),
+        url('/static/Rihla_background.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 20, 25, 0.2);
+      backdrop-filter: blur(1px);
+      z-index: 1;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(50px);
+      animation: heroAppear 1.2s ease-out forwards;
+      animation-delay: 0.3s;
+      position: relative;
+    }
+
+    @keyframes heroAppear {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 8vw, 6.5rem);
+      font-weight: 600;
+      color: var(--dark-text-primary);
+      margin-bottom: 1.5rem;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, var(--dark-text-primary) 0%, var(--dark-accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      color: var(--dark-accent);
+      margin-bottom: 2rem;
+      font-weight: 400;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .hero-description {
+      font-size: 1.2rem;
+      color: var(--dark-text-secondary);
+      margin-bottom: 3rem;
+      line-height: 1.7;
+      opacity: 0.8;
+    }
+
+    .cta-button {
+      background: linear-gradient(135deg, var(--moroccan-terracotta) 0%, var(--sahara-gold) 100%);
+      border: none;
+      padding: 1.2rem 3rem;
+      border-radius: 50px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 10px 30px rgba(212, 112, 79, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 20px 50px rgba(212, 112, 79, 0.6);
+    }
+
+    .cta-button:hover::before {
+      left: 100%;
+    }
+
+    /* Features Section */
+    .features-section {
+      padding: 6rem 2rem;
+      background: linear-gradient(135deg, var(--dark-secondary) 0%, var(--dark-tertiary) 100%);
+    }
+
+    .features-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: var(--dark-text-primary);
+      text-align: center;
+      margin-bottom: 3rem;
+      font-weight: 500;
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--moroccan-terracotta), var(--sahara-gold));
+      border-radius: 2px;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 3rem;
+      margin-bottom: 4rem;
+    }
+
+    .feature-card {
+      background: linear-gradient(135deg, rgba(230, 179, 104, 0.15) 0%, rgba(42, 52, 65, 0.8) 100%);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      border: 1px solid rgba(230, 179, 104, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(50px);
+      animation: cardSlideIn 0.8s ease-out forwards;
+    }
+
+    .feature-card:nth-child(1) { animation-delay: 0.2s; }
+    .feature-card:nth-child(2) { animation-delay: 0.4s; }
+    .feature-card:nth-child(3) { animation-delay: 0.6s; }
+
+    @keyframes cardSlideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .feature-card {
+      background: linear-gradient(135deg, rgba(230, 179, 104, 0.15) 0%, rgba(42, 52, 65, 0.8) 100%);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      border: 1px solid rgba(230, 179, 104, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(230, 179, 104, 0.1), transparent);
+      transition: left 0.6s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+      background: linear-gradient(135deg, rgba(230, 179, 104, 0.25) 0%, rgba(42, 52, 65, 0.9) 100%);
+      border-color: var(--dark-accent);
+    }
+
+    .feature-card:hover::before {
+      left: 100%;
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      display: block;
+      filter: drop-shadow(0 5px 15px rgba(230, 179, 104, 0.3));
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.1) rotateY(10deg);
+      filter: drop-shadow(0 8px 25px rgba(230, 179, 104, 0.5));
+    }
+
+    .feature-title {
+      font-size: 1.4rem;
+      color: var(--dark-text-primary);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .feature-description {
+      color: var(--dark-text-secondary);
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    /* How It Works Section */
+    .how-it-works {
+      padding: 6rem 2rem;
+      background: linear-gradient(135deg, var(--dark-primary) 0%, var(--dark-secondary) 100%);
+    }
+
+    .steps-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+    }
+
+    .step-card {
+      text-align: center;
+      position: relative;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: stepAppear 0.8s ease-out forwards;
+    }
+
+    .step-card:nth-child(1) { animation-delay: 0.3s; }
+    .step-card:nth-child(2) { animation-delay: 0.5s; }
+    .step-card:nth-child(3) { animation-delay: 0.7s; }
+
+    @keyframes stepAppear {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .step-number {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--moroccan-terracotta) 0%, var(--sahara-gold) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(212, 112, 79, 0.4);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .step-card:hover .step-number {
+      transform: scale(1.1) rotateY(15deg);
+      box-shadow: 0 15px 35px rgba(212, 112, 79, 0.6);
+    }
+
+    .step-title {
+      font-size: 1.3rem;
+      color: var(--dark-text-primary);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .step-description {
+      color: var(--dark-text-secondary);
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    /* Call to Action Section */
+    .final-cta {
+      padding: 6rem 2rem;
+      background: linear-gradient(135deg, var(--dark-tertiary) 0%, var(--dark-surface) 100%);
+      text-align: center;
+      color: var(--dark-text-primary);
+    }
+
+    .final-cta-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .final-cta-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .final-cta-description {
+      font-size: 1.2rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    .final-cta-button {
+      background: linear-gradient(135deg, var(--sahara-gold) 0%, var(--moroccan-terracotta) 100%);
+      border: none;
+      padding: 1.3rem 3.5rem;
+      border-radius: 50px;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 15px 40px rgba(230, 179, 104, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .final-cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s;
+    }
+
+    .final-cta-button:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 25px 60px rgba(230, 179, 104, 0.7);
+    }
+
+    .final-cta-button:hover::before {
+      left: 100%;
+    }
+
+    .floating-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: var(--sahara-gold);
+      border-radius: 50%;
+      animation: particleFloat 20s linear infinite;
+      opacity: 0;
+      box-shadow: 0 0 6px var(--sahara-gold);
+    }
+
+    @keyframes particleFloat {
+      0% { 
+        opacity: 0;
+        transform: translateY(100vh) rotate(0deg) scale(0.5);
+      }
+      10% { 
+        opacity: 0.8;
+      }
+      90% { 
+        opacity: 0.8;
+      }
+      100% { 
+        opacity: 0;
+        transform: translateY(-100px) rotate(360deg) scale(1);
+      }
+    }
+
+    /* Floating ambient orbs */
+    .ambient-effects {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    .floating-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      animation: orbFloat 25s ease-in-out infinite;
+      opacity: 0.4;
+    }
+
+    .orb-gold {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, var(--sahara-gold) 0%, transparent 70%);
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .orb-terracotta {
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, var(--moroccan-terracotta) 0%, transparent 70%);
+      top: 60%;
+      right: 15%;
+      animation-delay: -10s;
+    }
+
+    .orb-teal {
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--mystic-teal) 0%, transparent 70%);
+      bottom: 20%;
+      left: 30%;
+      animation-delay: -5s;
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { 
+        transform: translate(0, 0) scale(1);
+        opacity: 0.4;
+      }
+      25% { 
+        transform: translate(50px, -30px) scale(1.1);
+        opacity: 0.6;
+      }
+      50% { 
+        transform: translate(-30px, 40px) scale(0.9);
+        opacity: 0.3;
+      }
+      75% { 
+        transform: translate(40px, 20px) scale(1.05);
+        opacity: 0.5;
+      }
+    }
+
+    /* Floating Stars Background */
+    .stars-field {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -3;
+      pointer-events: none;
+    }
+
+    .floating-star {
+      position: absolute;
+      color: var(--sahara-gold);
+      font-size: 12px;
+      opacity: 0;
+      animation: starFloat 8s ease-in-out infinite;
+      text-shadow: 0 0 6px var(--sahara-gold);
+    }
+
+    .floating-star:nth-child(2n) {
+      animation-duration: 10s;
+      color: #FFD700;
+    }
+
+    .floating-star:nth-child(3n) {
+      animation-duration: 12s;
+      color: var(--moroccan-terracotta);
+      font-size: 8px;
+    }
+
+    .floating-star:nth-child(4n) {
+      animation-duration: 15s;
+      color: var(--mystic-teal);
+      font-size: 10px;
+    }
+
+    @keyframes starFloat {
+      0% {
+        opacity: 0;
+        transform: translateY(0) rotate(0deg) scale(0.5);
+      }
+      20% {
+        opacity: 1;
+        transform: translateY(-20px) rotate(90deg) scale(1);
+      }
+      80% {
+        opacity: 1;
+        transform: translateY(-40px) rotate(270deg) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-60px) rotate(360deg) scale(0.5);
+      }
+    }
+
+    /* Main sanctuary - Hidden by default */
+    .digital-sanctuary {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      position: relative;
+      z-index: 1;
+      display: none;
+      background: linear-gradient(135deg, var(--dark-primary) 0%, var(--dark-secondary) 100%);
+    }
+
+    .digital-sanctuary.active {
+      display: flex;
+    }
+
+    .loom-container {
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+    }
+
+    .sanctuary-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 10vw, 6rem);
+      font-weight: 600;
+      color: var(--dark-text-primary);
+      margin-bottom: 1.5rem;
+      letter-spacing: -3px;
+      position: relative;
+      background: linear-gradient(135deg, var(--dark-text-primary) 0%, var(--dark-accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sanctuary-title::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(ellipse, var(--sahara-gold) 0%, transparent 70%);
+      opacity: 0.15;
+      z-index: -1;
+      border-radius: 50%;
+    }
+
+    .soul-invitation {
+      font-size: 1.4rem;
+      color: var(--dark-text-secondary);
+      margin-bottom: 4rem;
+      font-weight: 400;
+      line-height: 1.7;
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0.9;
+    }
+
+    .thread-input-space {
+      position: relative;
+      margin-bottom: 4rem;
+    }
+
+    .soul-thread-input {
+      width: 100%;
+      min-height: 180px;
+      border: 2px solid var(--dark-border);
+      background: rgba(42, 52, 65, 0.6);
+      border-radius: 25px;
+      padding: 2.5rem;
+      font-size: 1.2rem;
+      font-family: 'Inter', sans-serif;
+      color: var(--dark-text-primary);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      resize: none;
+      outline: none;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      line-height: 1.8;
+      backdrop-filter: blur(20px);
+    }
+
+    .soul-thread-input:focus {
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border-color: var(--dark-accent);
+      transform: translateY(-5px);
+      background: rgba(42, 52, 65, 0.8);
+    }
+
+    .soul-thread-input::placeholder {
+      color: var(--dark-text-muted);
+      opacity: 0.8;
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .weave-button {
+      background: linear-gradient(135deg, var(--moroccan-terracotta) 0%, var(--sahara-gold) 100%);
+      border: none;
+      padding: 1.2rem 4rem;
+      border-radius: 60px;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 10px 25px rgba(212, 112, 79, 0.2);
+      margin-top: 2rem;
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .weave-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(212, 112, 79, 0.3);
+    }
+
+    .weave-button:active {
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .weave-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.7s;
+    }
+
+    .weave-button:hover::before {
+      left: 100%;
+    }
+
+    /* Weaving Animation System */
+    .loom-stage {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
+    }
+
+    .loom-stage.weaving {
+      opacity: 1;
+    }
+
+    .soul-essence, .journey-manifestation {
+      position: fixed;
+      font-size: 4rem;
+      opacity: 0;
+      transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+    }
+
+    .soul-essence {
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%) scale(0.8);
+    }
+
+    .journey-manifestation {
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%) scale(0.8);
+    }
+
+    .loom-stage.weaving .soul-essence,
+    .loom-stage.weaving .journey-manifestation {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+    }
+
+    .magic-thread {
+      position: absolute;
+      height: 3px;
+      background: linear-gradient(90deg, 
+        var(--thread-gold) 0%, 
+        var(--thread-copper) 30%, 
+        var(--sahara-gold) 60%, 
+        var(--thread-gold) 100%);
+      transform-origin: left center;
+      opacity: 0;
+      border-radius: 2px;
+      box-shadow: 0 0 10px var(--thread-gold);
+    }
+
+    .magic-thread.active {
+      animation: threadWeave 3s ease-out forwards;
+    }
+
+    @keyframes threadWeave {
+      0% {
+        opacity: 0;
+        transform: scaleX(0) rotateZ(0deg);
+        filter: brightness(0.5);
+      }
+      30% {
+        opacity: 1;
+        filter: brightness(1.5);
+      }
+      70% {
+        opacity: 0.9;
+        filter: brightness(1.2);
+      }
+      100% {
+        opacity: 0.7;
+        transform: scaleX(1) rotateZ(2deg);
+        filter: brightness(1);
+      }
+    }
+
+    /* Meditation State */
+    .weaving-meditation {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 1500;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.1);
+      padding: 3rem;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .weaving-meditation.active {
+      opacity: 1;
+    }
+
+    .meditation-verse {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--deep-desert);
+      margin-bottom: 2.5rem;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    .soul-mandala {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .mandala-ring {
+      position: absolute;
+      border: 3px solid;
+      border-radius: 50%;
+      border-color: var(--sahara-gold) transparent var(--moroccan-terracotta) transparent;
+      animation: mandalaRotate 2s linear infinite;
+    }
+
+    .mandala-ring:nth-child(1) {
+      width: 80px;
+      height: 80px;
+      animation-duration: 2s;
+    }
+
+    .mandala-ring:nth-child(2) {
+      width: 60px;
+      height: 60px;
+      top: 10px;
+      left: 10px;
+      animation-duration: 1.5s;
+      animation-direction: reverse;
+    }
+
+    .mandala-ring:nth-child(3) {
+      width: 40px;
+      height: 40px;
+      top: 20px;
+      left: 20px;
+      animation-duration: 1s;
+    }
+
+    @keyframes mandalaRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Journey Tapestry Result */
+    .journey-tapestry {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--warm-sand) 0%, var(--moonlit-white) 100%);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+    }
+
+    .journey-tapestry.unveiled {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .tapestry-header {
+      text-align: center;
+      padding: 3rem 2rem 2rem;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, transparent 100%);
+      backdrop-filter: blur(20px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .journey-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      color: var(--deep-desert);
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--deep-desert) 0%, var(--atlas-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .return-portal {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      background: linear-gradient(135deg, var(--moroccan-terracotta) 0%, var(--sahara-gold) 100%);
+      border: none;
+      padding: 1rem;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(212, 112, 79, 0.3);
+      z-index: 20;
+    }
+
+    .return-portal:hover {
+      transform: scale(1.1) rotate(-10deg);
+      box-shadow: 0 15px 40px rgba(212, 112, 79, 0.4);
+    }
+
+    .narrative-scroll {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .journey-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+      backdrop-filter: blur(20px);
+      border-radius: 30px;
+      padding: 3rem;
+      margin-bottom: 2rem;
+      box-shadow: 
+        0 25px 70px var(--shadow-whisper),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transform: translateY(50px);
+      opacity: 0;
+      animation: cardRise 0.8s ease-out forwards;
+    }
+
+    .journey-card:nth-child(2) { animation-delay: 0.2s; }
+    .journey-card:nth-child(3) { animation-delay: 0.4s; }
+    .journey-card:nth-child(4) { animation-delay: 0.6s; }
+
+    @keyframes cardRise {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .journey-text {
+      font-size: 1.2rem;
+      line-height: 1.9;
+      color: var(--deep-desert);
+      white-space: pre-wrap;
+      font-weight: 400;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .sanctuary-title {
+        font-size: 3rem;
+        letter-spacing: -2px;
+      }
+      
+      .soul-invitation {
+        font-size: 1.2rem;
+        margin-bottom: 3rem;
+      }
+      
+      .soul-thread-input {
+        padding: 2rem;
+        min-height: 150px;
+        font-size: 1.1rem;
+      }
+      
+      .weave-button {
+        padding: 1rem 3rem;
+        font-size: 1.1rem;
+      }
+      
+      .journey-card {
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .soul-essence, .journey-manifestation {
+        font-size: 3rem;
+      }
+      
+      .meditation-verse {
+        font-size: 1.5rem;
+      }
+      
+      .journey-title {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .digital-sanctuary {
+        padding: 2rem 1rem;
+      }
+      
+      .soul-thread-input {
+        padding: 1.5rem;
+      }
+      
+      .journey-card {
+        padding: 1.5rem;
+      }
+      
+      .narrative-scroll {
+        padding: 1rem;
+      }
+    }
+
+    /* Authentication Sanctuary */
+    .auth-sanctuary {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(15, 20, 25, 0.98) 0%, rgba(26, 31, 41, 0.98) 100%);
+      backdrop-filter: blur(20px);
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .auth-sanctuary.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .auth-container {
+      max-width: 450px;
+      width: 90%;
+      position: relative;
+    }
+
+    .auth-form {
+      background: rgba(42, 52, 65, 0.9);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--dark-border);
+      border-radius: 30px;
+      padding: 3rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      transition: all 0.5s ease;
+    }
+
+    .auth-form.hidden {
+      display: none;
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .auth-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--dark-text-primary);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .auth-whisper {
+      color: var(--dark-accent);
+      font-size: 1rem;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
+    .soul-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .input-constellation {
+      position: relative;
+    }
+
+    .cosmic-input {
+      width: 100%;
+      padding: 1.2rem 1.5rem;
+      background: rgba(51, 65, 85, 0.6);
+      border: 2px solid var(--dark-border);
+      border-radius: 15px;
+      color: var(--dark-text-primary);
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .cosmic-input:focus {
+      border-color: var(--dark-accent);
+      box-shadow: 0 0 0 3px rgba(230, 179, 104, 0.2);
+      background: rgba(51, 65, 85, 0.8);
+    }
+
+    .cosmic-input::placeholder {
+      color: var(--dark-text-muted);
+      font-style: italic;
+    }
+
+    .floating-label {
+      position: absolute;
+      top: -10px;
+      left: 15px;
+      background: linear-gradient(90deg, var(--deep-desert), var(--atlas-blue));
+      color: white;
+      font-size: 0.85rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 10px;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+
+    .cosmic-input:focus + .floating-label,
+    .cosmic-input:valid + .floating-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .soul-button {
+      background: linear-gradient(135deg, var(--sahara-gold) 0%, var(--moroccan-terracotta) 100%);
+      border: none;
+      padding: 1.2rem 2rem;
+      border-radius: 20px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .soul-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(230, 179, 104, 0.4);
+    }
+
+    .button-text {
+      position: relative;
+      z-index: 2;
+    }
+
+    .button-aurora {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s;
+    }
+
+    .soul-button:hover .button-aurora {
+      left: 100%;
+    }
+
+    .auth-transition {
+      text-align: center;
+      margin-top: 2rem;
+      color: var(--dark-text-secondary);
+    }
+
+    .link-button {
+      background: none;
+      border: none;
+      color: var(--dark-accent);
+      cursor: pointer;
+      text-decoration: underline;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .link-button:hover {
+      color: var(--dark-accent-hover);
+    }
+
+    .close-auth {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: rgba(42, 52, 65, 0.8);
+      border: 1px solid rgba(230, 179, 104, 0.3);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      color: var(--dark-text-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .close-auth:hover {
+      background: rgba(42, 52, 65, 1);
+      border-color: var(--dark-accent);
+      transform: scale(1.1);
+    }
+
+    /* User Profile Constellation */
+    .user-constellation {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      z-index: 100;
+    }
+
+    .user-constellation.hidden {
+      display: none;
+    }
+
+    .constellation-trigger {
+      background: linear-gradient(135deg, var(--moroccan-terracotta) 0%, var(--sahara-gold) 100%);
+      border: none;
+      border-radius: 50%;
+      padding: 0;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      box-shadow: 0 10px 30px rgba(212, 112, 79, 0.3);
+    }
+
+    .constellation-trigger:hover {
+      transform: scale(1.1);
+      box-shadow: 0 15px 40px rgba(212, 112, 79, 0.4);
+    }
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    .constellation-menu {
+      position: absolute;
+      top: 60px;
+      left: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 20px 60px var(--shadow-embrace);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      min-width: 250px;
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .constellation-menu.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .user-info h3 {
+      color: var(--deep-desert);
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .user-info p {
+      color: var(--moroccan-terracotta);
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .menu-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--moroccan-terracotta), transparent);
+      margin: 1rem 0;
+      opacity: 0.3;
+    }
+
+    .menu-item {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      color: var(--deep-desert);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .menu-item:hover {
+      background: rgba(212, 112, 79, 0.1);
+      transform: translateX(5px);
+    }
+
+    .menu-item.logout {
+      color: #e74c3c;
+    }
+
+    .menu-item.logout:hover {
+      background: rgba(231, 76, 60, 0.1);
+    }
+
+    .menu-icon {
+      font-size: 1.1rem;
+    }
+
+    /* Auth Button in Main Sanctuary */
+    .auth-trigger {
+      position: fixed;
+      top: 2rem;
+      right: 6rem;
+      background: linear-gradient(135deg, rgba(230, 179, 104, 0.2) 0%, rgba(42, 52, 65, 0.9) 100%);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(230, 179, 104, 0.4);
+      border-radius: 25px;
+      padding: 0.8rem 1.5rem;
+      color: var(--dark-text-primary);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      z-index: 50;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .auth-trigger:hover {
+      background: linear-gradient(135deg, rgba(230, 179, 104, 0.3) 0%, rgba(42, 52, 65, 1) 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      border-color: var(--dark-accent);
+    }
+
+    /* Background Image Container - Remove global background */
+    .background-tapestry {
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <h1>🌍 Bienvenue dans Riḥla</h1>
-  <p>Entrez une description de vos goûts (musique, livres, nourriture...)</p>
+  <!-- Stars Field -->
+  <div class="stars-field" id="starsField"></div>
 
-  <textarea id="userInput" placeholder="I love jazz and Moroccan food..."></textarea><br><br>
-  <button onclick="generate()">🎒 Générer ma Riḥla</button>
+  <!-- Ambient Effects -->
+  <div class="ambient-effects">
+    <div class="floating-orb orb-gold"></div>
+    <div class="floating-orb orb-terracotta"></div>
+    <div class="floating-orb orb-teal"></div>
+  </div>
 
-  <h2>✨ Résultat</h2>
-  <pre id="output">...</pre>
+  <!-- Background Tapestry -->
+  <div class="background-tapestry" id="backgroundTapestry"></div>
+
+  <!-- Floating Particles -->
+  <div class="floating-particles" id="particleField"></div>
+
+  <!-- Authentication Trigger -->
+  <button class="auth-trigger" onclick="showAuth()" id="authTrigger">
+    Sign In
+  </button>
+
+  <!-- Landing Page -->
+  <div class="landing-container" id="landingPage">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1 class="hero-title">Riḥla</h1>
+        <p class="hero-subtitle">Where Your Soul Finds Its Perfect Journey</p>
+        <p class="hero-description">
+          Beyond ordinary travel planning. We don't just show you destinations – 
+          we weave personalized odysseys from the threads of your passions, 
+          creating journeys that resonate with your deepest self.
+        </p>
+        <a href="#" class="cta-button" onclick="startJourney()">Begin Your Riḥla</a>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="features-container">
+        <h2 class="section-title">Why Riḥla is Different</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <span class="feature-icon">🧠</span>
+            <h3 class="feature-title">Soul-Deep Personalization</h3>
+            <p class="feature-description">
+              Traditional platforms show popular destinations. We analyze your cultural tastes, 
+              musical preferences, and literary influences to craft journeys that match your soul.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">🎭</span>
+            <h3 class="feature-title">Cultural DNA Mapping</h3>
+            <p class="feature-description">
+              Tell us about a song that moves you, a book that changed you, or a film that speaks to you. 
+              Our AI understands the cultural threads that define your identity.
+            </p>
+          </div>
+          <div class="feature-card">
+            <span class="feature-icon">🌍</span>
+            <h3 class="feature-title">Beyond Tourist Traps</h3>
+            <p class="feature-description">
+              No generic itineraries. Every recommendation is a carefully woven tapestry 
+              of experiences that align with your unique perspective and interests.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+      <div class="steps-container">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h3 class="step-title">Share Your Universe</h3>
+            <p class="step-description">
+              Tell us about the art, music, literature, and films that define you. 
+              Share fragments of your cultural DNA.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h3 class="step-title">AI Soul Analysis</h3>
+            <p class="step-description">
+              Our advanced AI weaves connections between your preferences and potential 
+              destinations, finding patterns invisible to traditional travel tools.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3 class="step-title">Your Perfect Riḥla</h3>
+            <p class="step-description">
+              Receive a personalized journey recommendation that goes beyond sightseeing – 
+              a transformative experience crafted just for you.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+      <div class="final-cta-content">
+        <h2 class="final-cta-title">Ready to Discover Your Perfect Journey?</h2>
+        <p class="final-cta-description">
+          Join thousands of travelers who've found their soul's destination through Riḥla. 
+          Your personalized odyssey awaits.
+        </p>
+        <a href="#" class="final-cta-button" onclick="startJourney()">Create My Riḥla</a>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Main Sanctuary (Journey Creation) -->
+  <div class="digital-sanctuary" id="sanctuary">
+    <div class="loom-container">
+      <h1 class="sanctuary-title">Riḥla</h1>
+      <p class="soul-invitation">
+        Whisper to me a fragment of your universe... A melody that transports you, 
+        a book that haunts you, a film that reveals you. I will weave your perfect odyssey.
+      </p>
+      
+      <div class="thread-input-space">
+        <textarea 
+          id="soulThread" 
+          class="soul-thread-input" 
+          placeholder="Miles Davis notes dance with the scent of mint tea... Blade Runner makes me dream of impossible futures... Murakami writes my silences..."></textarea>
+      </div>
+      
+      <button class="weave-button" onclick="initiateWeaving()">
+        Weave the Impossible
+      </button>
+      
+      <button class="cta-button" onclick="backToLanding()" style="margin-top: 2rem; background: linear-gradient(135deg, rgba(230, 179, 104, 0.2) 0%, rgba(42, 52, 65, 0.9) 100%); color: var(--dark-text-primary); border: 1px solid rgba(230, 179, 104, 0.4); backdrop-filter: blur(10px);">
+        ← Back to Home
+      </button>
+    </div>
+  </div>
+
+  <!-- Weaving Animation Stage -->
+  <div class="loom-stage" id="weavingStage">
+    <div class="soul-essence">📚 🎵 🎬 📖</div>
+    <div class="journey-manifestation">🏔️ 🕌 🌅 🏛️</div>
+  </div>
+
+  <!-- Meditation State -->
+  <div class="weaving-meditation" id="meditationState">
+    <div class="meditation-verse">
+      The threads of your soul<br>
+      are weaving into journey...
+    </div>
+    <div class="soul-mandala">
+      <div class="mandala-ring"></div>
+      <div class="mandala-ring"></div>
+      <div class="mandala-ring"></div>
+    </div>
+  </div>
+
+  <!-- Journey Result Tapestry -->
+  <div class="journey-tapestry" id="journeyTapestry">
+    <button class="return-portal" onclick="returnToSanctuary()" title="Return to sanctuary">
+      ←
+    </button>
+    
+    <div class="tapestry-header">
+      <h2 class="journey-title">Your Unique Riḥla</h2>
+    </div>
+    
+    <div class="narrative-scroll">
+      <div class="journey-card">
+        <div class="journey-text" id="journeyNarrative">
+          <!-- Journey content will be dynamically inserted here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Authentication Sanctuary -->
+  <div class="auth-sanctuary" id="authSanctuary">
+    <div class="auth-container">
+      <!-- Login Form -->
+      <div class="auth-form" id="loginForm">
+        <div class="auth-header">
+          <h2 class="auth-title">Return to Sanctuary</h2>
+          <p class="auth-whisper">Reconnect to your wandering soul</p>
+        </div>
+        
+        <form class="soul-form" onsubmit="handleLogin(event)">
+          <div class="input-constellation">
+            <input type="email" id="loginEmail" class="cosmic-input" placeholder="Your digital essence" required>
+            <label class="floating-label">Email</label>
+          </div>
+          
+          <div class="input-constellation">
+            <input type="password" id="loginPassword" class="cosmic-input" placeholder="Your secret key" required>
+            <label class="floating-label">Password</label>
+          </div>
+          
+          <button type="submit" class="soul-button">
+            <span class="button-text">Enter the Sanctuary</span>
+            <div class="button-aurora"></div>
+          </button>
+        </form>
+        
+        <div class="auth-transition">
+          <p>New traveler? <button class="link-button" onclick="showSignup()">Create your essence</button></p>
+        </div>
+      </div>
+
+      <!-- Signup Form -->
+      <div class="auth-form hidden" id="signupForm">
+        <div class="auth-header">
+          <h2 class="auth-title">Birth of a Traveler</h2>
+          <p class="auth-whisper">Create your identity in our universe</p>
+        </div>
+        
+        <form class="soul-form" onsubmit="handleSignup(event)">
+          <div class="input-constellation">
+            <input type="text" id="signupName" class="cosmic-input" placeholder="Your cosmic name" required>
+            <label class="floating-label">Full name</label>
+          </div>
+          
+          <div class="input-constellation">
+            <input type="email" id="signupEmail" class="cosmic-input" placeholder="Your digital essence" required>
+            <label class="floating-label">Email</label>
+          </div>
+          
+          <div class="input-constellation">
+            <input type="password" id="signupPassword" class="cosmic-input" placeholder="Your secret key" required>
+            <label class="floating-label">Password</label>
+          </div>
+          
+          <div class="input-constellation">
+            <input type="password" id="confirmPassword" class="cosmic-input" placeholder="Confirm your key" required>
+            <label class="floating-label">Confirm password</label>
+          </div>
+          
+          <button type="submit" class="soul-button">
+            <span class="button-text">Join the Odyssey</span>
+            <div class="button-aurora"></div>
+          </button>
+        </form>
+        
+        <div class="auth-transition">
+          <p>Already a traveler? <button class="link-button" onclick="showLogin()">Return to sanctuary</button></p>
+        </div>
+      </div>
+    </div>
+    
+    <button class="close-auth" onclick="closeAuth()" title="Close">×</button>
+  </div>
+
+  <!-- User Profile Constellation -->
+  <div class="user-constellation hidden" id="userConstellation">
+    <button class="constellation-trigger" onclick="toggleUserMenu()" title="Your profile">
+      <div class="user-avatar">
+        <span id="userInitials">U</span>
+      </div>
+    </button>
+    
+    <div class="constellation-menu" id="constellationMenu">
+      <div class="user-info">
+        <h3 id="userName">Traveler</h3>
+        <p id="userEmail">traveler@rihla.com</p>
+      </div>
+      
+      <div class="menu-divider"></div>
+      
+      <button class="menu-item" onclick="viewProfile()">
+        <span class="menu-icon">👤</span>
+        My Profile
+      </button>
+      
+      <button class="menu-item" onclick="viewJourneys()">
+        <span class="menu-icon">🗺️</span>
+        My Riḥlas
+      </button>
+      
+      <button class="menu-item" onclick="viewFavorites()">
+        <span class="menu-icon">⭐</span>
+        Favorites
+      </button>
+      
+      <div class="menu-divider"></div>
+      
+      <button class="menu-item logout" onclick="handleLogout()">
+        <span class="menu-icon">🚪</span>
+        Sign Out
+      </button>
+    </div>
+  </div>
 
   <script>
-    async function generate() {
-      const input = document.getElementById("userInput").value;
-      const res = await fetch("/rihla", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input })
-      });
-      const data = await res.json();
-      document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    // Global state
+    let isWeaving = false;
+    let pollInterval = null;
+    let currentUser = null;
+
+    // Initialize ambient effects and check auth state
+    function initializeAmbience() {
+      createFloatingParticles();
+      createFloatingStars();
+      setupBackgroundImage();
+      checkAuthState();
+      showLandingPage();
     }
+
+    // Create floating stars
+    function createFloatingStars() {
+      const starsField = document.getElementById('starsField');
+      const starSymbols = ['✦', '✧', '⋆', '✩', '✪', '✫', '✬', '✭', '✮', '✯', '✰', '✱'];
+      
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+          const star = document.createElement('div');
+          star.classList.add('floating-star');
+          star.textContent = starSymbols[Math.floor(Math.random() * starSymbols.length)];
+          star.style.left = Math.random() * 100 + '%';
+          star.style.top = Math.random() * 100 + '%';
+          star.style.animationDelay = Math.random() * 8 + 's';
+          starsField.appendChild(star);
+        }, i * 400);
+      }
+    }
+
+    // Show landing page
+    function showLandingPage() {
+      document.getElementById('landingPage').style.display = 'block';
+      document.getElementById('sanctuary').classList.remove('active');
+    }
+
+    // Start journey (navigate to journey creation)
+    function startJourney() {
+      document.getElementById('landingPage').style.display = 'none';
+      document.getElementById('sanctuary').classList.add('active');
+      setTimeout(() => {
+        document.getElementById('soulThread').focus();
+      }, 500);
+    }
+
+    // Back to landing page
+    function backToLanding() {
+      document.getElementById('sanctuary').classList.remove('active');
+      document.getElementById('landingPage').style.display = 'block';
+      // Clear any ongoing weaving
+      if (isWeaving) {
+        returnToSanctuary();
+      }
+    }
+
+    // Setup background image - Robust solution with beautiful fallback
+    function setupBackgroundImage() {
+      const heroSection = document.querySelector('.hero-section');
+      if (heroSection) {
+        // First, ensure we have a beautiful gradient background
+        console.log('🎨 Setting up hero section background...');
+        
+        // Test if the background image exists
+        const testImg = new Image();
+        
+        testImg.onload = function() {
+          console.log('✅ Background image loaded successfully!');
+          heroSection.classList.add('has-bg-image');
+          heroSection.style.filter = 'brightness(1.1) contrast(1.1)';
+        };
+        
+        testImg.onerror = function() {
+          console.log('ℹ️ Using beautiful gradient background (image not found)');
+          // Keep the beautiful gradient we already have
+          heroSection.style.background = `
+            linear-gradient(135deg, rgba(15, 20, 25, 0.9) 0%, rgba(26, 31, 41, 0.95) 100%),
+            radial-gradient(ellipse at top left, rgba(230, 179, 104, 0.2) 0%, transparent 60%),
+            radial-gradient(ellipse at bottom right, rgba(212, 112, 79, 0.2) 0%, transparent 60%),
+            radial-gradient(ellipse at center, rgba(13, 148, 136, 0.1) 0%, transparent 70%),
+            linear-gradient(135deg, var(--dark-primary) 0%, var(--dark-secondary) 50%, var(--dark-tertiary) 100%)
+          `;
+        };
+        
+        // Test multiple paths
+        const imagePaths = [
+          '/static/Rihla_background.png',
+          '/Rihla_background.png',
+          '../Rihla_background.png'
+        ];
+        
+        let pathIndex = 0;
+        function tryNextPath() {
+          if (pathIndex < imagePaths.length) {
+            testImg.src = imagePaths[pathIndex];
+            pathIndex++;
+          }
+        }
+        
+        testImg.onerror = function() {
+          if (pathIndex < imagePaths.length) {
+            tryNextPath();
+          } else {
+            console.log('ℹ️ All image paths tested - using beautiful gradient background');
+          }
+        };
+        
+        // Start testing
+        tryNextPath();
+      }
+    }
+
+    // Check authentication state
+    function checkAuthState() {
+      const token = localStorage.getItem('rihla_token');
+      const userData = localStorage.getItem('rihla_user');
+      
+      if (token && userData) {
+        currentUser = JSON.parse(userData);
+        showUserConstellation();
+      } else {
+        showAuthTrigger();
+      }
+    }
+
+    // Show user constellation
+    function showUserConstellation() {
+      document.getElementById('authTrigger').style.display = 'none';
+      const constellation = document.getElementById('userConstellation');
+      constellation.classList.remove('hidden');
+      
+      // Update user info
+      document.getElementById('userInitials').textContent = 
+        currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase();
+      document.getElementById('userName').textContent = currentUser.name;
+      document.getElementById('userEmail').textContent = currentUser.email;
+    }
+
+    // Show auth trigger
+    function showAuthTrigger() {
+      document.getElementById('authTrigger').style.display = 'block';
+      document.getElementById('userConstellation').classList.add('hidden');
+    }
+
+    // Authentication functions
+    function showAuth() {
+      document.getElementById('authSanctuary').classList.add('active');
+      showLogin();
+    }
+
+    function closeAuth() {
+      document.getElementById('authSanctuary').classList.remove('active');
+    }
+
+    function showLogin() {
+      document.getElementById('loginForm').classList.remove('hidden');
+      document.getElementById('signupForm').classList.add('hidden');
+      setTimeout(() => document.getElementById('loginEmail').focus(), 300);
+    }
+
+    function showSignup() {
+      document.getElementById('signupForm').classList.remove('hidden');
+      document.getElementById('loginForm').classList.add('hidden');
+      setTimeout(() => document.getElementById('signupName').focus(), 300);
+    }
+
+    // Handle login
+    async function handleLogin(event) {
+      event.preventDefault();
+      
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      
+      try {
+        // Add loading state
+        const button = event.target.querySelector('.soul-button');
+        const originalText = button.querySelector('.button-text').textContent;
+        button.querySelector('.button-text').textContent = 'Connexion en cours...';
+        button.disabled = true;
+        
+        const response = await fetch('/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.token) {
+          localStorage.setItem('rihla_token', data.token);
+          localStorage.setItem('rihla_user', JSON.stringify(data.user));
+          currentUser = data.user;
+          
+          closeAuth();
+          showUserConstellation();
+        } else {
+          throw new Error(data.message || 'Erreur de connexion');
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        // Show elegant error
+        showAuthError('Essence not found. Please check your cosmic coordinates.');
+      } finally {
+        // Reset button
+        const button = event.target.querySelector('.soul-button');
+        button.querySelector('.button-text').textContent = originalText;
+        button.disabled = false;
+      }
+    }
+
+    // Handle signup
+    async function handleSignup(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      
+      if (password !== confirmPassword) {
+        showAuthError('The secret keys do not match.');
+        return;
+      }
+      
+      try {
+        const button = event.target.querySelector('.soul-button');
+        const originalText = button.querySelector('.button-text').textContent;
+        button.querySelector('.button-text').textContent = 'Creating essence...';
+        button.disabled = true;
+        
+        const response = await fetch('/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.token) {
+          localStorage.setItem('rihla_token', data.token);
+          localStorage.setItem('rihla_user', JSON.stringify(data.user));
+          currentUser = data.user;
+          
+          closeAuth();
+          showUserConstellation();
+        } else {
+          throw new Error(data.message || 'Error during creation');
+        }
+      } catch (error) {
+        console.error('Signup error:', error);
+        showAuthError('Unable to create your essence. This identity may already exist.');
+      } finally {
+        const button = event.target.querySelector('.soul-button');
+        button.querySelector('.button-text').textContent = originalText;
+        button.disabled = false;
+      }
+    }
+
+    // Show auth error
+    function showAuthError(message) {
+      // Create elegant error notification
+      const errorDiv = document.createElement('div');
+      errorDiv.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, rgba(231, 76, 60, 0.9), rgba(192, 57, 43, 0.9));
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        z-index: 4000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      `;
+      errorDiv.textContent = message;
+      document.body.appendChild(errorDiv);
+      
+      setTimeout(() => errorDiv.style.opacity = '1', 100);
+      setTimeout(() => {
+        errorDiv.style.opacity = '0';
+        setTimeout(() => document.body.removeChild(errorDiv), 300);
+      }, 3000);
+    }
+
+    // User menu functions
+    function toggleUserMenu() {
+      const menu = document.getElementById('constellationMenu');
+      menu.classList.toggle('active');
+    }
+
+    function viewProfile() {
+      console.log('View profile');
+      toggleUserMenu();
+    }
+
+    function viewJourneys() {
+      console.log('View journeys');
+      toggleUserMenu();
+    }
+
+    function viewFavorites() {
+      console.log('View favorites');
+      toggleUserMenu();
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('rihla_token');
+      localStorage.removeItem('rihla_user');
+      currentUser = null;
+      toggleUserMenu();
+      showAuthTrigger();
+    }
+
+    // Create floating particles
+    function createFloatingParticles() {
+      const particleField = document.getElementById('particleField');
+      
+      for (let i = 0; i < 25; i++) {
+        setTimeout(() => {
+          const particle = document.createElement('div');
+          particle.classList.add('particle');
+          particle.style.left = Math.random() * 100 + '%';
+          particle.style.animationDelay = Math.random() * 20 + 's';
+          particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+          particleField.appendChild(particle);
+        }, i * 200);
+      }
+    }
+
+    // Create magical weaving threads
+    function createMagicalThreads() {
+      const stage = document.getElementById('weavingStage');
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      const centerY = windowHeight / 2;
+      const leftX = windowWidth * 0.15;
+      const rightX = windowWidth * 0.85;
+
+      // Create multiple waves of threads
+      for (let wave = 0; wave < 3; wave++) {
+        for (let i = 0; i < 8; i++) {
+          setTimeout(() => {
+            const thread = document.createElement('div');
+            thread.classList.add('magic-thread');
+            
+            // Calculate thread path with slight curve
+            const startY = centerY + (Math.random() - 0.5) * 300;
+            const endY = centerY + (Math.random() - 0.5) * 300;
+            const controlY = (startY + endY) / 2 + (Math.random() - 0.5) * 100;
+            
+            const length = Math.sqrt(Math.pow(rightX - leftX, 2) + Math.pow(endY - startY, 2));
+            const angle = Math.atan2(endY - startY, rightX - leftX) * 180 / Math.PI;
+            
+            thread.style.left = leftX + 'px';
+            thread.style.top = startY + 'px';
+            thread.style.width = length + 'px';
+            thread.style.transform = `rotate(${angle}deg)`;
+            
+            stage.appendChild(thread);
+            
+            // Activate thread animation
+            setTimeout(() => {
+              thread.classList.add('active');
+            }, 100);
+            
+            // Cleanup after animation
+            setTimeout(() => {
+              if (thread.parentNode) {
+                thread.remove();
+              }
+            }, 5000);
+            
+          }, (wave * 2000) + (i * 300));
+        }
+      }
+    }
+
+    // Enhanced input validation with gentle feedback
+    function validateSoulInput() {
+      const input = document.getElementById("soulThread").value.trim();
+      
+      if (!input) {
+        const inputElement = document.getElementById("soulThread");
+        inputElement.style.animation = 'gentleShake 0.6s ease-in-out';
+        inputElement.style.borderColor = 'var(--moroccan-terracotta)';
+        
+        setTimeout(() => {
+          inputElement.style.animation = '';
+          inputElement.style.borderColor = '';
+        }, 600);
+        
+        return false;
+      }
+      
+      return input;
+    }
+
+    // Main weaving orchestration
+    async function initiateWeaving() {
+      if (isWeaving) return;
+      
+      const soulInput = validateSoulInput();
+      if (!soulInput) return;
+      
+      // Check if user is authenticated for premium features
+      if (!currentUser) {
+        showAuthError('Sign in to access the complete Riḥla experience');
+        setTimeout(() => showAuth(), 1000);
+        return;
+      }
+      
+      isWeaving = true;
+      
+      // Phase 1: Begin the weaving visualization (2s)
+      const stage = document.getElementById('weavingStage');
+      stage.classList.add('weaving');
+      
+      // Phase 2: Create magical threads (1s delay)
+      setTimeout(() => {
+        createMagicalThreads();
+      }, 1000);
+
+      // Phase 3: Enter meditation state (3s delay)
+      setTimeout(() => {
+        const meditation = document.getElementById('meditationState');
+        meditation.classList.add('active');
+      }, 3000);
+
+      try {
+        // Phase 4: Initiate the soul-to-journey transformation
+        const response = await fetch("/rihla", {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem('rihla_token')}`
+          },
+          body: JSON.stringify({ input: soulInput })
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Handle different response patterns
+        if (data.status_url) {
+          // Backend provides polling URL
+          await pollJourneyStatus(data.status_url);
+        } else if (data.result || data.journey || data.narrative) {
+          // Direct result
+          await revealJourneyTapestry(data);
+        } else {
+          // Generic response - still display it beautifully
+          await revealJourneyTapestry(data);
+        }
+
+      } catch (error) {
+        console.error('Weaving error:', error);
+        await handleWeavingError();
+      }
+    }
+
+    // Poll for journey completion (if backend supports async processing)
+    async function pollJourneyStatus(statusUrl) {
+      let attempts = 0;
+      const maxAttempts = 30; // 5 minutes max
+      
+      pollInterval = setInterval(async () => {
+        attempts++;
+        
+        try {
+          const response = await fetch(statusUrl);
+          const data = await response.json();
+          
+          if (data.status === 'completed' && data.result) {
+            clearInterval(pollInterval);
+            await revealJourneyTapestry(data.result);
+          } else if (data.status === 'failed' || attempts >= maxAttempts) {
+            clearInterval(pollInterval);
+            await handleWeavingError();
+          }
+          // Continue polling if status is 'processing'
+          
+        } catch (error) {
+          console.error('Polling error:', error);
+          if (attempts >= maxAttempts) {
+            clearInterval(pollInterval);
+            await handleWeavingError();
+          }
+        }
+      }, 2000); // Poll every 2 seconds
+    }
+
+    // Reveal the completed journey tapestry
+    async function revealJourneyTapestry(data) {
+      // Minimum meditation time for dramatic effect
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Hide weaving elements
+      document.getElementById('meditationState').classList.remove('active');
+      document.getElementById('weavingStage').classList.remove('weaving');
+      
+      // Format the journey narrative
+      let narrativeText;
+      if (typeof data === 'string') {
+        narrativeText = data;
+      } else if (data.result) {
+        narrativeText = typeof data.result === 'string' ? data.result : JSON.stringify(data.result, null, 2);
+      } else if (data.journey) {
+        narrativeText = typeof data.journey === 'string' ? data.journey : JSON.stringify(data.journey, null, 2);
+      } else if (data.narrative) {
+        narrativeText = typeof data.narrative === 'string' ? data.narrative : JSON.stringify(data.narrative, null, 2);
+      } else {
+        narrativeText = JSON.stringify(data, null, 2);
+      }
+      
+      // Reveal tapestry with journey
+      setTimeout(() => {
+        document.getElementById('journeyNarrative').textContent = narrativeText;
+        document.getElementById('journeyTapestry').classList.add('unveiled');
+        isWeaving = false;
+      }, 800);
+    }
+
+    // Handle weaving errors gracefully
+    async function handleWeavingError() {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      document.getElementById('meditationState').classList.remove('active');
+      document.getElementById('weavingStage').classList.remove('weaving');
+      
+      // Elegant error presentation
+      setTimeout(() => {
+        document.getElementById('journeyNarrative').textContent = 
+          "The cosmic threads seem tangled today... 🌟\n\n" +
+          "Your soul is too complex to be woven at this moment. " +
+          "Try again in a few moments, the spiritual loom will recalibrate.";
+        document.getElementById('journeyTapestry').classList.add('unveiled');
+        isWeaving = false;
+      }, 800);
+    }
+
+    // Return to sanctuary
+    function returnToSanctuary() {
+      document.getElementById('journeyTapestry').classList.remove('unveiled');
+      
+      // Clean up any remaining threads
+      const stage = document.getElementById('weavingStage');
+      const threads = stage.querySelectorAll('.magic-thread');
+      threads.forEach(thread => thread.remove());
+      
+      // Clear polling if active
+      if (pollInterval) {
+        clearInterval(pollInterval);
+        pollInterval = null;
+      }
+      
+      // Reset state and refocus
+      setTimeout(() => {
+        document.getElementById('soulThread').value = '';
+        backToLanding(); // Return to landing page instead of just focusing input
+        isWeaving = false;
+      }, 1000);
+    }
+
+    // Add gentle shake animation
+    const shakeStyle = document.createElement('style');
+    shakeStyle.textContent = `
+      @keyframes gentleShake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-8px); }
+        75% { transform: translateX(8px); }
+      }
+    `;
+    document.head.appendChild(shakeStyle);
+
+    // Enhanced keyboard interactions
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeAmbience();
+      
+      const soulInput = document.getElementById('soulThread');
+      
+      // Ctrl/Cmd + Enter to weave
+      soulInput.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          initiateWeaving();
+        }
+      });
+      
+      // Escape to return from tapestry or close modals
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          const tapestry = document.getElementById('journeyTapestry');
+          const auth = document.getElementById('authSanctuary');
+          const userMenu = document.getElementById('constellationMenu');
+          
+          if (tapestry.classList.contains('unveiled')) {
+            returnToSanctuary();
+          } else if (auth.classList.contains('active')) {
+            closeAuth();
+          } else if (userMenu.classList.contains('active')) {
+            toggleUserMenu();
+          }
+        }
+      });
+      
+      // Click outside to close user menu
+      document.addEventListener('click', (e) => {
+        const constellation = document.getElementById('userConstellation');
+        const menu = document.getElementById('constellationMenu');
+        
+        if (!constellation.contains(e.target) && menu.classList.contains('active')) {
+          toggleUserMenu();
+        }
+      });
+    });
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+      if (pollInterval) {
+        clearInterval(pollInterval);
+      }
+    });
   </script>
 </body>
 </html>
