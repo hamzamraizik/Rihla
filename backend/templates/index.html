@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Riḥla - Voyage AI</title>
+  <style>
+    body { font-family: sans-serif; margin: 30px; }
+    textarea { width: 100%; height: 100px; }
+    pre { background: #f0f0f0; padding: 1em; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>🌍 Bienvenue dans Riḥla</h1>
+  <p>Entrez une description de vos goûts (musique, livres, nourriture...)</p>
+
+  <textarea id="userInput" placeholder="I love jazz and Moroccan food..."></textarea><br><br>
+  <button onclick="generate()">🎒 Générer ma Riḥla</button>
+
+  <h2>✨ Résultat</h2>
+  <pre id="output">...</pre>
+
+  <script>
+    async function generate() {
+      const input = document.getElementById("userInput").value;
+      const res = await fetch("/rihla", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input })
+      });
+      const data = await res.json();
+      document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
