@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Riḥla - Voyage intelligent</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+    <div class="container">
+        <h1>Riḥla - Plan your personalized trip 🎒</h1>
+        <form method="POST">
+            <input type="text" name="query" placeholder="Ex: Inception, Daft Punk..." value="{{ query }}" required />
+            <button type="submit">research</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        {# Section des résultats masquée #}
+        {# {% if results %}
+            <section>
+                <h2>Results :</h2>
+                <ul>
+                {% for r in results %}
+                    <li>{{ r.get('name', 'Nom inconnu') }} (ID: {{ r.get('id', '?') }})</li>
+                {% endfor %}
+                </ul>
+            </section>
+        {% endif %} #}
+
+        {% if recs %}
+            <section>
+                <h2>Recommendations :</h2>
+                <ul>
+                {% for r in recs %}
+                    <li>{{ r.get('name', 'Nom inconnu') }}</li>
+                {% endfor %}
+                </ul>
+            </section>
+        {% endif %}
+        {% if narrative %}
+    <section>
+        <h2>✨ Story :</h2>
+        <p>{{ narrative }}</p>
+    </section>
+{% endif %}
+    </div>
+</body>
+</html>
