@@ -1043,21 +1043,26 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* Journey Tapestry Result */
+    /* Journey Tapestry Result - THE MEMORY CONSTELLATION */
     .journey-tapestry {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, var(--current-secondary) 0%, var(--current-primary) 100%);
+      background: 
+        radial-gradient(ellipse at 20% 30%, rgba(230, 179, 104, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(212, 112, 79, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 40% 80%, rgba(13, 148, 136, 0.06) 0%, transparent 50%),
+        linear-gradient(135deg, var(--current-primary) 0%, #0a0f1a 50%, var(--current-secondary) 100%);
       z-index: 2000;
       display: flex;
       flex-direction: column;
       opacity: 0;
       pointer-events: none;
-      transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow-y: auto;
+      transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      perspective: 1000px;
     }
 
     .journey-tapestry.unveiled {
@@ -1065,78 +1070,765 @@
       pointer-events: auto;
     }
 
-    .tapestry-header {
-      text-align: center;
-      padding: 3rem 2rem 2rem;
-      background: linear-gradient(180deg, var(--current-surface-elevated) 0%, transparent 100%);
-      backdrop-filter: blur(20px);
-      position: sticky;
+    /* The Constellation Canvas */
+    .memory-constellation {
+      position: absolute;
       top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* Floating Memory Orbs */
+    .memory-orb {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(230, 179, 104, 0.2) 0%, rgba(212, 112, 79, 0.1) 100%);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(230, 179, 104, 0.3);
+      cursor: pointer;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: rgba(230, 179, 104, 0.8);
+      animation: gentleFloat 8s infinite ease-in-out;
+      box-shadow: 
+        0 0 30px rgba(230, 179, 104, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .memory-orb:nth-child(odd) {
+      animation-delay: -2s;
+      animation-direction: reverse;
+    }
+
+    .memory-orb:hover {
+      transform: scale(1.3) rotateY(15deg);
+      box-shadow: 
+        0 0 60px rgba(230, 179, 104, 0.5),
+        inset 0 0 30px rgba(255, 255, 255, 0.2);
+      border-color: rgba(230, 179, 104, 0.8);
+      background: linear-gradient(135deg, rgba(230, 179, 104, 0.4) 0%, rgba(212, 112, 79, 0.3) 100%);
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      25% { transform: translateY(-20px) rotate(3deg); }
+      50% { transform: translateY(-10px) rotate(0deg); }
+      75% { transform: translateY(-25px) rotate(-3deg); }
+    }
+
+    /* The Sacred Scroll - Journey Unfolder */
+    .sacred-scroll {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotateX(-15deg);
+      width: 800px;
+      max-width: 90vw;
+      height: 600px;
+      max-height: 80vh;
+      background: 
+        linear-gradient(145deg, rgba(251, 249, 246, 0.95) 0%, rgba(244, 241, 234, 0.9) 100%);
+      border-radius: 20px;
+      box-shadow: 
+        0 50px 100px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+      border: 3px solid rgba(230, 179, 104, 0.4);
+      opacity: 0;
+      transform: translate(-50%, -50%) rotateX(-30deg) scale(0.8);
+      transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+    }
+
+    body.light-mode .sacred-scroll {
+      background: 
+        linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 100%);
+      box-shadow: 
+        0 50px 100px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    .sacred-scroll.revealed {
+      opacity: 1;
+      transform: translate(-50%, -50%) rotateX(0deg) scale(1);
+    }
+
+    /* Ancient Parchment Texture */
+    .sacred-scroll::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.03) 0%, transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(160, 82, 45, 0.02) 0%, transparent 25%),
+        linear-gradient(45deg, transparent 48%, rgba(139, 69, 19, 0.01) 50%, transparent 52%);
+      pointer-events: none;
+    }
+
+    /* Mystical Journey Content */
+    .journey-essence {
+      position: relative;
+      height: 100%;
+      padding: 3rem;
+      overflow-y: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .journey-essence::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Constellation Header */
+    .constellation-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid rgba(230, 179, 104, 0.3);
+    }
+
+    .constellation-header .journey-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: var(--current-text-primary);
+      margin: 0;
+      font-weight: 600;
+      text-shadow: 0 2px 10px rgba(230, 179, 104, 0.3);
+    }
+
+    /* Dark mode constellation title */
+    body:not(.light-mode) .constellation-header .journey-title {
+      color: rgba(255, 255, 255, 0.95);
+      text-shadow: 0 2px 10px rgba(230, 179, 104, 0.4);
+    }
+
+    /* Light mode constellation title */
+    body.light-mode .constellation-header .journey-title {
+      color: rgba(15, 23, 42, 0.9);
+      text-shadow: 0 2px 10px rgba(212, 112, 79, 0.3);
+    }
+
+    /* Memory Fragments Container - Card Carousel System */
+    .memory-fragments-container {
+      position: relative;
+      height: 650px; /* Increased height */
+      min-height: 600px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 1400px; /* Increased max width */
+      margin: 0 auto;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+
+    /* Journey Cards Carousel */
+    .journey-carousel {
+      position: relative;
+      width: 100%;
+      height: 600px; /* Increased height from default */
+      max-width: 1200px; /* Increased width */
+      margin: 2rem auto; /* Center the carousel */
+      overflow: hidden;
+      border-radius: 25px;
+      background: linear-gradient(135deg, 
+        rgba(42, 52, 65, 0.95) 0%, 
+        rgba(51, 65, 85, 0.9) 100%);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(230, 179, 104, 0.3);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      padding: 0 80px; /* Add horizontal padding for navigation buttons */
+    }
+
+    /* Light mode carousel */
+    body.light-mode .journey-carousel {
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.98) 0%, 
+        rgba(248, 250, 252, 0.95) 100%);
+      border-color: rgba(212, 112, 79, 0.3);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
+    }
+
+    .journey-card-container {
+      display: flex;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      height: 100%;
+      width: 100%;
+    }
+
+    .journey-card {
+      min-width: 100%;
+      height: 100%;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+    }
+
+    /* Individual Day Card */
+    .day-card {
+      background: linear-gradient(135deg, 
+        rgba(42, 52, 65, 0.95) 0%, 
+        rgba(51, 65, 85, 0.9) 100%);
+      border-radius: 25px;
+      padding: 3rem;
+      height: 100%;
+      border: 2px solid rgba(230, 179, 104, 0.3);
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(230, 179, 104, 0.3) transparent;
+    }
+
+    /* Light mode day card */
+    body.light-mode .day-card {
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.98) 0%, 
+        rgba(248, 250, 252, 0.95) 100%);
+      border-color: rgba(212, 112, 79, 0.3);
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 1);
+    }
+
+    /* Day Card Header */
+    .day-card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid rgba(230, 179, 104, 0.2);
+    }
+
+    body.light-mode .day-card-header {
+      border-bottom-color: rgba(212, 112, 79, 0.2);
+    }
+
+    .day-star {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(230, 179, 104, 0.9) 0%, rgba(212, 112, 79, 0.8) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-right: 2rem;
+      box-shadow: 
+        0 15px 30px rgba(230, 179, 104, 0.4),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+      animation: starPulse 3s infinite ease-in-out;
+      flex-shrink: 0;
+    }
+
+    @keyframes starPulse {
+      0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 15px 30px rgba(230, 179, 104, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.3);
+      }
+      50% { 
+        transform: scale(1.05);
+        box-shadow: 0 20px 40px rgba(230, 179, 104, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.4);
+      }
+    }
+
+    .day-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: rgba(255, 255, 255, 0.95);
+      margin: 0;
+      font-weight: 600;
+      flex: 1;
+      line-height: 1.2;
+    }
+
+    /* Light mode day title */
+    body.light-mode .day-card-title {
+      color: rgba(15, 23, 42, 0.9);
+    }
+
+    /* Day Content */
+    .day-content {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .day-description {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 2rem;
+      font-weight: 400;
+    }
+
+    /* Light mode description */
+    body.light-mode .day-description {
+      color: rgba(15, 23, 42, 0.85);
+    }
+
+    /* Expandable content */
+    .day-details {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      border: 1px solid rgba(230, 179, 104, 0.2);
+      max-height: 120px;
+      overflow: hidden;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    /* Light mode details */
+    body.light-mode .day-details {
+      background: rgba(212, 112, 79, 0.05);
+      border-color: rgba(212, 112, 79, 0.2);
+    }
+
+    .day-details.expanded {
+      max-height: 500px;
+    }
+
+    .day-details-content {
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.7;
+      font-size: 1.1rem;
+    }
+
+    /* Light mode details content */
+    body.light-mode .day-details-content {
+      color: rgba(15, 23, 42, 0.8);
+    }
+
+    .show-more-btn {
+      background: linear-gradient(135deg, rgba(230, 179, 104, 0.8) 0%, rgba(212, 112, 79, 0.7) 100%);
+      border: none;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .show-more-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(230, 179, 104, 0.3);
+    }
+
+    /* Navigation Arrows */
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: linear-gradient(135deg, rgba(230, 179, 104, 0.9) 0%, rgba(212, 112, 79, 0.8) 100%);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.4rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(230, 179, 104, 0.3);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-nav:hover {
+      transform: translateY(-50%) scale(1.15);
+      box-shadow: 0 15px 40px rgba(230, 179, 104, 0.5);
+      background: linear-gradient(135deg, rgba(230, 179, 104, 1) 0%, rgba(212, 112, 79, 0.9) 100%);
+    }
+
+    .carousel-nav.prev {
+      left: 15px; /* Moved inside the container */
+    }
+
+    .carousel-nav.next {
+      right: 15px; /* Moved inside the container */
+    }
+
+    .carousel-nav:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: translateY(-50%) scale(0.9);
+      background: linear-gradient(135deg, rgba(100, 100, 100, 0.5) 0%, rgba(80, 80, 80, 0.4) 100%);
+    }
+
+    /* Card Indicators */
+    .carousel-indicators {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 1rem;
       z-index: 10;
     }
 
-    .journey-title {
+    .indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(230, 179, 104, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .indicator.active {
+      background: rgba(230, 179, 104, 0.9);
+      transform: scale(1.3);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .journey-carousel {
+        height: 500px;
+        padding: 0 60px; /* Reduced padding for mobile */
+      }
+      
+      .day-card {
+        padding: 1.5rem;
+      }
+      
+      .day-star {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+        margin-right: 1.5rem;
+      }
+      
+      .day-card-title {
+        font-size: 1.6rem;
+      }
+      
+      .carousel-nav {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+      }
+      
+      .carousel-nav.prev {
+        left: 10px;
+      }
+
+      .carousel-nav.next {
+        right: 10px;
+      }
+      
+      .memory-fragments-container {
+        height: 550px;
+        padding: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .journey-carousel {
+        height: 450px;
+        padding: 0 50px;
+      }
+      
+      .carousel-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
+      
+      .memory-fragments-container {
+        height: 500px;
+        padding: 0.5rem;
+      }
+    }
+
+    /* Day Constellation - Each day as a celestial body */
+    .day-constellation {
+      margin-bottom: 4rem;
+      position: relative;
+      opacity: 0;
+      transform: translateY(50px);
+      animation: dayMaterialize 1.2s ease-out forwards;
+    }
+
+    .day-constellation:nth-child(1) { animation-delay: 0.5s; }
+    .day-constellation:nth-child(2) { animation-delay: 0.8s; }
+    .day-constellation:nth-child(3) { animation-delay: 1.1s; }
+    .day-constellation:nth-child(4) { animation-delay: 1.4s; }
+
+    @keyframes dayMaterialize {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Celestial Day Header */
+    .celestial-day {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .day-star {
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, #e6b368 0%, #d4704f 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      margin-right: 2rem;
+      box-shadow: 
+        0 0 30px rgba(230, 179, 104, 0.4),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+      animation: starPulse 3s infinite ease-in-out;
+    }
+
+    @keyframes starPulse {
+      0%, 100% { box-shadow: 0 0 30px rgba(230, 179, 104, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.3); }
+      50% { box-shadow: 0 0 50px rgba(230, 179, 104, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.4); }
+    }
+
+    .day-title {
       font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
+      font-size: 2rem;
       color: var(--current-text-primary);
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, var(--current-text-primary) 0%, var(--current-accent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Memory Fragments - Polaroid Style */
+    .memory-fragment {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.15),
+        0 2px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(230, 179, 104, 0.2);
+      position: relative;
+      transform: rotate(-1deg);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .memory-fragment:nth-child(even) {
+      transform: rotate(1deg);
+      margin-left: 2rem;
+    }
+
+    .memory-fragment:hover {
+      transform: rotate(0deg) scale(1.02);
+      box-shadow: 
+        0 15px 40px rgba(0, 0, 0, 0.2),
+        0 5px 15px rgba(0, 0, 0, 0.15);
+      border-color: rgba(230, 179, 104, 0.4);
+    }
+
+    body.light-mode .memory-fragment {
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.08),
+        0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .memory-fragment::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 15px;
+      background: rgba(230, 179, 104, 0.3);
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .fragment-type {
+      font-size: 0.9rem;
+      color: rgba(212, 112, 79, 0.8);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .fragment-type::before {
+      content: '✦';
+      margin-right: 0.5rem;
+      color: #e6b368;
+    }
+
+    .fragment-content {
+      color: var(--current-text-primary);
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    /* Constellation Connection Lines */
+    .constellation-line {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, rgba(230, 179, 104, 0.3) 50%, transparent 100%);
+      top: 50%;
+      left: 100px;
+      right: -100px;
+      z-index: -1;
+      animation: lineShimmer 4s infinite ease-in-out;
+    }
+
+    @keyframes lineShimmer {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.7; }
     }
 
     .return-portal {
       position: fixed;
       top: 2rem;
       right: 2rem;
-      background: linear-gradient(135deg, var(--moroccan-terracotta) 0%, var(--sahara-gold) 100%);
-      border: none;
-      padding: 1rem;
+      width: 60px;
+      height: 60px;
+      background: 
+        radial-gradient(circle at 30% 30%, rgba(230, 179, 104, 0.9) 0%, rgba(212, 112, 79, 0.8) 100%);
+      border: 2px solid rgba(255, 255, 255, 0.3);
       border-radius: 50%;
       color: white;
       font-size: 1.5rem;
       cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       backdrop-filter: blur(10px);
-      box-shadow: 0 10px 30px rgba(212, 112, 79, 0.3);
+      box-shadow: 
+        0 10px 30px rgba(212, 112, 79, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
       z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: portalPulse 4s infinite ease-in-out;
+    }
+
+    @keyframes portalPulse {
+      0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 10px 30px rgba(212, 112, 79, 0.3), inset 0 2px 0 rgba(255, 255, 255, 0.3);
+      }
+      50% { 
+        transform: scale(1.1);
+        box-shadow: 0 15px 40px rgba(212, 112, 79, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.4);
+      }
     }
 
     .return-portal:hover {
-      transform: scale(1.1) rotate(-10deg);
-      box-shadow: 0 15px 40px rgba(212, 112, 79, 0.4);
-    }
-
-    .narrative-scroll {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    .journey-card {
-      background: linear-gradient(135deg, var(--current-surface-elevated) 0%, var(--current-surface) 100%);
-      backdrop-filter: blur(20px);
-      border-radius: 30px;
-      padding: 3rem;
-      margin-bottom: 2rem;
+      transform: scale(1.2) rotate(-10deg);
       box-shadow: 
-        0 25px 70px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      border: 1px solid var(--current-border);
-      transform: translateY(50px);
-      opacity: 0;
-      animation: cardRise 0.8s ease-out forwards;
+        0 20px 50px rgba(212, 112, 79, 0.5),
+        inset 0 3px 0 rgba(255, 255, 255, 0.4);
+      background: 
+        radial-gradient(circle at 30% 30%, rgba(230, 179, 104, 1) 0%, rgba(212, 112, 79, 0.9) 100%);
     }
 
-    .journey-card:nth-child(2) { animation-delay: 0.2s; }
-    .journey-card:nth-child(3) { animation-delay: 0.4s; }
-    .journey-card:nth-child(4) { animation-delay: 0.6s; }
+    /* Mystical Particle Effects */
+    .memory-particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: radial-gradient(circle, rgba(230, 179, 104, 0.8) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: particleDrift 15s infinite linear;
+    }
 
-    @keyframes cardRise {
-      to {
-        transform: translateY(0);
+    @keyframes particleDrift {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
         opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Scroll Enhancement */
+    .journey-essence {
+      scroll-behavior: smooth;
+    }
+
+    .journey-essence:hover {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(230, 179, 104, 0.3) transparent;
+    }
+
+    /* Mobile Responsiveness for the Sacred Experience */
+    @media (max-width: 768px) {
+      .sacred-scroll {
+        width: 95vw;
+        height: 85vh;
+        transform: translate(-50%, -50%) rotateX(-10deg);
+      }
+      
+      .sacred-scroll.revealed {
+        transform: translate(-50%, -50%) rotateX(0deg) scale(1);
+      }
+      
+      .memory-orb {
+        width: 80px;
+        height: 80px;
+        font-size: 1.5rem;
+      }
+      
+      .day-star {
+        width: 40px;
+        height: 40px;
+        font-size: 0.9rem;
+        margin-right: 1rem;
+      }
+      
+      .day-title {
+        font-size: 1.5rem;
+      }
+      
+      .journey-essence {
+        padding: 2rem;
+      }
+      
+      .memory-fragment:nth-child(even) {
+        margin-left: 0;
       }
     }
 
@@ -1615,8 +2307,8 @@
   <!-- Floating Particles -->
   <div class="floating-particles" id="particleField"></div>
 
-  <!-- Authentication Trigger -->
-  <button class="auth-trigger" onclick="showAuth()" id="authTrigger">
+  <!-- Authentication Trigger - Hidden for testing -->
+  <button class="auth-trigger" onclick="showAuth()" id="authTrigger" style="display: none;">
     Sign In
   </button>
 
@@ -1760,20 +2452,51 @@
     </div>
   </div>
 
-  <!-- Journey Result Tapestry -->
+  <!-- Journey Result Tapestry - THE MEMORY CONSTELLATION -->
   <div class="journey-tapestry" id="journeyTapestry">
     <button class="return-portal" onclick="returnToSanctuary()" title="Return to sanctuary">
       ←
     </button>
     
-    <div class="tapestry-header">
-      <h2 class="journey-title">Your Unique Riḥla</h2>
+    <!-- The Memory Constellation Canvas -->
+    <div class="memory-constellation">
+      <!-- Floating Memory Orbs -->
+      <div class="memory-orb" style="top: 15%; left: 10%;">🏔️</div>
+      <div class="memory-orb" style="top: 25%; right: 15%;">🕌</div>
+      <div class="memory-orb" style="bottom: 30%; left: 20%;">🌅</div>
+      <div class="memory-orb" style="bottom: 20%; right: 25%;">🏛️</div>
+      <div class="memory-orb" style="top: 45%; left: 5%;">🐪</div>
+      <div class="memory-orb" style="top: 60%; right: 10%;">🌟</div>
     </div>
     
-    <div class="narrative-scroll">
-      <div class="journey-card">
-        <div class="journey-text" id="journeyNarrative">
-          <!-- Journey content will be dynamically inserted here -->
+    <!-- The Sacred Scroll - Central Journey Display -->
+    <div class="sacred-scroll">
+      <!-- Ancient Parchment Texture -->
+      <div class="journey-essence">
+        <div class="constellation-header">
+          <h2 class="journey-title">✨ Your Mystical Riḥla ✨</h2>
+        </div>
+        
+        <!-- Journey Content in Card Carousel Format -->
+        <div class="memory-fragments-container">
+          <div class="journey-carousel" id="journeyCarousel">
+            <div class="journey-card-container" id="cardContainer">
+              <!-- Journey cards will be dynamically inserted here -->
+            </div>
+            
+            <!-- Navigation Arrows -->
+            <button class="carousel-nav prev" id="prevBtn" onclick="previousCard()">
+              ←
+            </button>
+            <button class="carousel-nav next" id="nextBtn" onclick="nextCard()">
+              →
+            </button>
+            
+            <!-- Card Indicators -->
+            <div class="carousel-indicators" id="cardIndicators">
+              <!-- Indicators will be dynamically inserted here -->
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1968,12 +2691,23 @@
       document.getElementById('sanctuary').classList.remove('active');
     }
 
-    // Start journey (navigate to journey creation)
+    // Start journey (navigate to journey creation) - No authentication required for testing
     function startJourney() {
+      console.log('🚀 Starting journey...');
+      
+      // Hide landing page
       document.getElementById('landingPage').style.display = 'none';
+      
+      // Show the sanctuary (journey creation interface)
       document.getElementById('sanctuary').classList.add('active');
+      
+      // Focus on input after animation
       setTimeout(() => {
-        document.getElementById('soulThread').focus();
+        const soulInput = document.getElementById('soulThread');
+        if (soulInput) {
+          soulInput.focus();
+          console.log('✅ Input focused');
+        }
       }, 500);
     }
 
@@ -2337,12 +3071,12 @@
       const soulInput = validateSoulInput();
       if (!soulInput) return;
       
-      // Check if user is authenticated for premium features
-      if (!currentUser) {
-        showAuthError('Sign in to access the complete Riḥla experience');
-        setTimeout(() => showAuth(), 1000);
-        return;
-      }
+      // For frontend testing, skip authentication requirement
+      // if (!currentUser) {
+      //   showAuthError('Sign in to access the complete Riḥla experience');
+      //   setTimeout(() => showAuth(), 1000);
+      //   return;
+      // }
       
       isWeaving = true;
       
@@ -2362,37 +3096,117 @@
       }, 3000);
 
       try {
-        // Phase 4: Initiate the soul-to-journey transformation
-        const response = await fetch("/rihla", {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem('rihla_token')}`
-          },
-          body: JSON.stringify({ input: soulInput })
-        });
+        // For frontend testing, use mock data instead of actual backend call
+        const mockJourneyData = generateMockJourney(soulInput);
         
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        // Simulate backend delay
+        await new Promise(resolve => setTimeout(resolve, 3000));
         
-        const data = await response.json();
-        
-        // Handle different response patterns
-        if (data.status_url) {
-          // Backend provides polling URL
-          await pollJourneyStatus(data.status_url);
-        } else if (data.result || data.journey || data.narrative) {
-          // Direct result
-          await revealJourneyTapestry(data);
-        } else {
-          // Generic response - still display it beautifully
-          await revealJourneyTapestry(data);
-        }
+        await revealJourneyTapestry(mockJourneyData);
 
       } catch (error) {
         console.error('Weaving error:', error);
         await handleWeavingError();
+      }
+    }
+
+    // Generate mock journey data for frontend testing
+    function generateMockJourney(userInput) {
+      const mockJourneys = {
+        "morocco": `🌟 Your Mystical Riḥla Through Morocco 🌟
+
+🏜️ **Day 1: Arrival in Marrakech - The Red City Awakens**
+Land in the beating heart of Morocco, where ancient medina walls hold centuries of stories. Walk through Jemaa el-Fnaa square as the sun sets, painting the sky in Saharan gold. Tonight, rest in a traditional riad with intricate zellige tiles and the gentle sound of fountain water.
+
+🏛️ **Day 2: Fez - The Spiritual Soul of Morocco**
+Journey to Fez, the spiritual capital where time stands still. Lose yourself in the world's largest medina, where leather tanners work as their ancestors did 1000 years ago. Visit the ancient Qarawiyyin University and feel the wisdom of ages in the air.
+
+🏔️ **Day 3-4: Atlas Mountains - Touch the Sky**
+Ascend into the High Atlas Mountains, where Berber villages cling to mountainsides like precious gems. Trek through valleys painted in every shade of earth, meet nomadic families, and sleep under stars so bright they seem close enough to touch.
+
+🏜️ **Day 5-6: Sahara Desert - Dance with Infinity**
+Ride camels into the Erg Chebbi dunes as the sun transforms sand into liquid gold. Camp under the vast desert sky, where shooting stars write poetry across the darkness. Wake to sunrise over infinite dunes - a moment that will live in your soul forever.
+
+🌊 **Day 7: Essaouira - Where Ocean Meets Dream**
+End your journey in the coastal gem of Essaouira, where Atlantic winds carry the scent of argan trees and ancient Portuguese ramparts guard secrets of the sea. Watch fishermen bring in their catch as seagulls dance overhead.
+
+✨ *Total Journey Investment: $2,400 per person*
+🌙 *Best Time: October - April for perfect weather*
+🎭 *Cultural Immersion Level: Authentic & Transformative*`,
+
+        "atlas": `⛰️ **Atlas Mountains Adventure - Where Earth Touches Sky**
+
+🏔️ **Day 1-2: Imlil Valley Base Camp**
+Begin your mountain odyssey in Imlil, gateway to Mount Toubkal. Stay in a traditional Berber guesthouse where hospitality flows like mountain streams. Acclimatize with gentle walks through terraced gardens and ancient irrigation channels.
+
+🗻 **Day 3-4: Mount Toubkal Summit**
+Ascend North Africa's highest peak (4,167m). Cross boulder fields and snow patches, guided by Berber mountaineers whose families have walked these paths for generations. Stand atop Morocco, with the Sahara stretching endlessly to the south.
+
+🏘️ **Day 5-6: Berber Village Immersion**
+Descend to remote villages where time moves differently. Share tagines with families, learn traditional carpet weaving, and listen to stories told in Tamazight under star-filled skies. Sleep in mountain refuges warmed by wood fires.
+
+🌺 **Day 7: Valley of Roses**
+Journey through the Dadès Valley, known as the Valley of Roses. Visit rose cooperatives where women distill petals into precious rose water, and walk through landscapes that inspired countless artists.
+
+💎 *Adventure Level: Challenging but Rewarding*
+🎯 *Best Season: May-October for optimal conditions*`,
+
+        "desert": `🏜️ **Sahara Desert - Dance with Infinity**
+
+🐪 **Day 1: Merzouga - Gateway to Forever**
+Arrive at the edge of the Erg Chebbi dunes, where the Sahara begins its endless dance. Mount camels as the sun begins its descent, painting dunes in gold, amber, and crimson. Trek into the heart of silence.
+
+⭐ **Night 1: Desert Camp Under Infinite Stars**
+Sleep in traditional nomad tents where the only sound is wind singing through sand. Watch the Milky Way unfurl like a cosmic carpet, brighter than you've ever seen. Listen to Berber musicians weave ancient melodies around crackling fires.
+
+🌅 **Day 2: Sunrise & Sandboarding**
+Wake before dawn to witness sunrise transform the desert into liquid gold. Try sandboarding down massive dunes, or simply sit in meditation as the desert teaches you about stillness and vastness.
+
+🏘️ **Day 3: Nomad Family Encounter**
+Meet genuine nomad families who still follow ancient rhythms, moving with their animals across seasonal grazing grounds. Share mint tea and learn how they navigate by stars and read weather in sand patterns.
+
+🎶 **Final Evening: Gnawa Music & Desert Philosophy**
+Experience authentic Gnawa music sessions where rhythm becomes prayer and desert becomes temple. Leave with sand between your toes and infinity in your heart.
+
+🌟 *Journey Investment: $800 for 3 days*
+🌙 *Magical Season: October-April*`,
+
+        "default": `✨ **Your Personalized Moroccan Journey**
+
+🌟 Based on your soul's calling, here's a mystical adventure crafted just for you:
+
+🏛️ **Cultural Immersion Days**
+- Explore ancient medinas where every corner holds secrets
+- Learn traditional crafts from master artisans
+- Share meals with local families in their homes
+
+🏞️ **Natural Wonders**
+- Discover hidden waterfalls in the Atlas Mountains
+- Walk through cedar forests where Barbary macaques play
+- Experience the dramatic landscapes of the Anti-Atlas
+
+🎭 **Authentic Experiences**
+- Attend a traditional Berber wedding ceremony
+- Learn to cook tagines in a family kitchen
+- Join a caravan crossing ancient trade routes
+
+🏨 **Accommodation: Mix of traditional riads, mountain lodges, and desert camps**
+💰 **Investment: Customized based on your preferences**
+🕰️ **Duration: Flexible from 7-21 days**
+
+*This is just the beginning - your actual journey will be tailored to your specific dreams and desires.*`
+      };
+
+      // Determine which mock journey to show based on user input
+      const input = userInput.toLowerCase();
+      if (input.includes('morocco') || input.includes('marrakech') || input.includes('fez')) {
+        return mockJourneys.morocco;
+      } else if (input.includes('atlas') || input.includes('mountain') || input.includes('toubkal')) {
+        return mockJourneys.atlas;
+      } else if (input.includes('desert') || input.includes('sahara') || input.includes('dune')) {
+        return mockJourneys.desert;
+      } else {
+        return mockJourneys.default;
       }
     }
 
@@ -2452,10 +3266,251 @@
       
       // Reveal tapestry with journey
       setTimeout(() => {
-        document.getElementById('journeyNarrative').textContent = narrativeText;
+        const journeyContainer = document.getElementById('cardContainer');
+        
+        // Parse and format the journey into beautiful day cards
+        const journeyCards = parseJourneyIntoCards(narrativeText);
+        journeyContainer.innerHTML = journeyCards.html;
+        
+        // Initialize carousel
+        initializeJourneyCarousel(journeyCards.count);
+        
         document.getElementById('journeyTapestry').classList.add('unveiled');
         isWeaving = false;
       }, 800);
+    }
+
+    // Global carousel state
+    let currentCardIndex = 0;
+    let totalCards = 0;
+
+    // Magic function to transform journey text into interactive day cards
+    function parseJourneyIntoCards(journeyText) {
+      // Extract title
+      const titleMatch = journeyText.match(/^[🌟✨⛰️🏜️].+$/m);
+      const title = titleMatch ? titleMatch[0] : '✨ Your Mystical Riḥla ✨';
+      
+      // Split into day sections
+      const dayPattern = /(?:🏜️|🏛️|🏔️|🌊|🌅|🗻|🏘️|🌺|🐪|⭐|🎶|🏞️|🎭)\s*\*\*Day\s*(\d+(?:-\d+)?)[:\-]\s*([^*]+)\*\*\s*([\s\S]*?)(?=(?:🏜️|🏛️|🏔️|🌊|🌅|🗻|🏘️|🌺|🐪|⭐|🎶|🏞️|🎭)\s*\*\*Day|\*Total Journey|$)/g;
+      
+      const days = [];
+      let match;
+      
+      while ((match = dayPattern.exec(journeyText)) !== null) {
+        const dayNumber = match[1];
+        const dayTitle = match[2].trim();
+        const dayContent = match[3].trim();
+        const dayEmoji = match[0].charAt(0);
+        
+        days.push({
+          number: dayNumber,
+          title: dayTitle,
+          content: dayContent,
+          emoji: dayEmoji
+        });
+      }
+      
+      // If no days found, try alternative parsing
+      if (days.length === 0) {
+        const alternativePattern = /\*\*([^*]+)\*\*\s*([\s\S]*?)(?=\*\*|$)/g;
+        let altMatch;
+        let dayCounter = 1;
+        
+        while ((altMatch = alternativePattern.exec(journeyText)) !== null) {
+          const sectionTitle = altMatch[1].trim();
+          const sectionContent = altMatch[2].trim();
+          
+          if (sectionContent && !sectionTitle.includes('Journey Investment') && !sectionTitle.includes('Best Time')) {
+            days.push({
+              number: dayCounter.toString(),
+              title: sectionTitle,
+              content: sectionContent,
+              emoji: getEmojiForDay(dayCounter)
+            });
+            dayCounter++;
+          }
+        }
+      }
+      
+      // Build the cards HTML
+      let cardsHTML = '';
+      
+      if (days.length > 0) {
+        days.forEach((day, index) => {
+          const shortContent = truncateContent(day.content, 200);
+          const fullContent = day.content;
+          
+          cardsHTML += `
+            <div class="journey-card">
+              <div class="day-card">
+                <div class="day-card-header">
+                  <div class="day-star">${day.emoji}</div>
+                  <h3 class="day-card-title">Day ${day.number}<br><span style="font-size: 0.8em; opacity: 0.8;">${day.title}</span></h3>
+                </div>
+                <div class="day-content">
+                  <div class="day-description" id="description-${index}">
+                    ${formatDayContent(shortContent)}
+                  </div>
+                  <div class="day-details" id="details-${index}">
+                    <div class="day-details-content">
+                      ${formatDayContent(fullContent)}
+                    </div>
+                  </div>
+                  <button class="show-more-btn" onclick="toggleCardDetails(${index})">
+                    <span id="btn-text-${index}">Show More</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        
+        // Add journey summary card if available
+        const summaryMatch = journeyText.match(/\*Total Journey[^*]*\*([^*]+)\*/);
+        const bestTimeMatch = journeyText.match(/\*Best Time[^*]*\*([^*]+)\*/);
+        const levelMatch = journeyText.match(/\*[^*]*Level[^*]*\*([^*]+)\*/);
+        
+        if (summaryMatch || bestTimeMatch || levelMatch) {
+          cardsHTML += `
+            <div class="journey-card">
+              <div class="day-card">
+                <div class="day-card-header">
+                  <div class="day-star">📋</div>
+                  <h3 class="day-card-title">Journey<br><span style="font-size: 0.8em; opacity: 0.8;">Summary</span></h3>
+                </div>
+                <div class="day-content">
+                  <div class="day-description">
+                    <h4 style="color: rgba(230, 179, 104, 0.9); margin-bottom: 1rem;">Trip Details</h4>
+                    ${summaryMatch ? `<p><strong>💰 Investment:</strong> ${summaryMatch[1].trim()}</p>` : ''}
+                    ${bestTimeMatch ? `<p><strong>🌙 Best Time:</strong> ${bestTimeMatch[1].trim()}</p>` : ''}
+                    ${levelMatch ? `<p><strong>🎯 Experience Level:</strong> ${levelMatch[1].trim()}</p>` : ''}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          days.push({ summary: true });
+        }
+      } else {
+        // Fallback for text that doesn't match day pattern
+        cardsHTML += `
+          <div class="journey-card">
+            <div class="day-card">
+              <div class="day-card-header">
+                <div class="day-star">✨</div>
+                <h3 class="day-card-title">Your Personalized<br><span style="font-size: 0.8em; opacity: 0.8;">Journey</span></h3>
+              </div>
+              <div class="day-content">
+                <div class="day-description">
+                  ${formatDayContent(journeyText)}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        days.push({ single: true });
+      }
+      
+      return {
+        html: cardsHTML,
+        count: days.length
+      };
+    }
+
+    // Initialize the carousel functionality
+    function initializeJourneyCarousel(cardCount) {
+      totalCards = cardCount;
+      currentCardIndex = 0;
+      
+      // Create indicators
+      const indicatorsContainer = document.getElementById('cardIndicators');
+      let indicatorsHTML = '';
+      
+      for (let i = 0; i < totalCards; i++) {
+        indicatorsHTML += `<div class="indicator ${i === 0 ? 'active' : ''}" onclick="goToCard(${i})"></div>`;
+      }
+      
+      indicatorsContainer.innerHTML = indicatorsHTML;
+      
+      // Update navigation buttons
+      updateNavigationButtons();
+    }
+
+    // Navigation functions
+    function nextCard() {
+      if (currentCardIndex < totalCards - 1) {
+        currentCardIndex++;
+        updateCarousel();
+      }
+    }
+
+    function previousCard() {
+      if (currentCardIndex > 0) {
+        currentCardIndex--;
+        updateCarousel();
+      }
+    }
+
+    function goToCard(index) {
+      currentCardIndex = index;
+      updateCarousel();
+    }
+
+    function updateCarousel() {
+      const container = document.getElementById('cardContainer');
+      const translateX = -currentCardIndex * 100;
+      container.style.transform = `translateX(${translateX}%)`;
+      
+      // Update indicators
+      const indicators = document.querySelectorAll('.indicator');
+      indicators.forEach((indicator, index) => {
+        indicator.classList.toggle('active', index === currentCardIndex);
+      });
+      
+      updateNavigationButtons();
+    }
+
+    function updateNavigationButtons() {
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      prevBtn.disabled = currentCardIndex === 0;
+      nextBtn.disabled = currentCardIndex === totalCards - 1;
+    }
+
+    // Toggle card details (show more/less)
+    function toggleCardDetails(cardIndex) {
+      const details = document.getElementById(`details-${cardIndex}`);
+      const btnText = document.getElementById(`btn-text-${cardIndex}`);
+      
+      if (details.classList.contains('expanded')) {
+        details.classList.remove('expanded');
+        btnText.textContent = 'Show More';
+      } else {
+        details.classList.add('expanded');
+        btnText.textContent = 'Show Less';
+      }
+    }
+
+    // Helper function to truncate content
+    function truncateContent(content, maxLength) {
+      if (content.length <= maxLength) return content;
+      return content.substring(0, maxLength) + '...';
+    }
+
+    // Helper function to get emoji for day number
+    function getEmojiForDay(dayNumber) {
+      const emojis = ['🌅', '🏔️', '🏛️', '🌊', '🏜️', '⭐', '🌟', '🎭', '🐪', '🌺'];
+      return emojis[(dayNumber - 1) % emojis.length];
+    }
+
+    // Helper function to format day content
+    function formatDayContent(content) {
+      return content
+        .replace(/\n/g, '<br>')
+        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+        .trim();
     }
 
     // Handle weaving errors gracefully
@@ -2513,16 +3568,25 @@
     // Enhanced keyboard interactions
     document.addEventListener('DOMContentLoaded', () => {
       initializeAmbience();
+      initializeMemoryConstellation(); // Initialize the Memory Constellation
       
       const soulInput = document.getElementById('soulThread');
       
-      // Ctrl/Cmd + Enter to weave
-      soulInput.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-          e.preventDefault();
-          initiateWeaving();
-        }
-      });
+      // Set up input listeners only if the element exists
+      if (soulInput) {
+        // Ctrl/Cmd + Enter to weave
+        soulInput.addEventListener('keydown', (e) => {
+          if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            initiateWeaving();
+          }
+          // Also allow simple Enter to weave
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            initiateWeaving();
+          }
+        });
+      }
       
       // Escape to return from tapestry or close modals
       document.addEventListener('keydown', (e) => {
@@ -2551,6 +3615,144 @@
         }
       });
     });
+
+    // Memory Constellation JavaScript Magic
+    function initializeMemoryConstellation() {
+      // Create mystical particles
+      function createParticle() {
+        const particle = document.createElement('div');
+        particle.className = 'memory-particle';
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+        
+        const tapestry = document.querySelector('.journey-tapestry');
+        if (tapestry) {
+          tapestry.appendChild(particle);
+          
+          setTimeout(() => {
+            if (particle.parentNode) {
+              particle.remove();
+            }
+          }, 25000);
+        }
+      }
+
+      // Generate particles periodically when tapestry is visible
+      const particleInterval = setInterval(() => {
+        const tapestry = document.querySelector('.journey-tapestry');
+        if (tapestry && tapestry.classList.contains('unveiled')) {
+          createParticle();
+        }
+      }, 3000);
+      
+      // Initialize some particles immediately
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          setTimeout(createParticle, i * 500);
+        }
+      }, 1000);
+
+      // Sacred scroll reveal animation
+      setTimeout(() => {
+        const scroll = document.querySelector('.sacred-scroll');
+        if (scroll) {
+          scroll.classList.add('revealed');
+        }
+      }, 1500);
+
+      // Memory orb interactions - initialize when tapestry is shown
+      function initializeOrbs() {
+        document.querySelectorAll('.memory-orb').forEach((orb, index) => {
+          orb.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.3) rotate(' + (Math.random() * 20 - 10) + 'deg)';
+            this.style.boxShadow = '0 25px 60px rgba(230, 179, 104, 0.6), inset 0 5px 0 rgba(255, 255, 255, 0.4)';
+            
+            // Ripple effect
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              width: 0;
+              height: 0;
+              border-radius: 50%;
+              background: radial-gradient(circle, rgba(230, 179, 104, 0.3) 0%, transparent 70%);
+              transform: translate(-50%, -50%);
+              animation: rippleExpand 1s ease-out;
+              pointer-events: none;
+              z-index: -1;
+            `;
+            this.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 1000);
+          });
+
+          orb.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1) rotate(0deg)';
+            this.style.boxShadow = '0 15px 40px rgba(230, 179, 104, 0.4), inset 0 3px 0 rgba(255, 255, 255, 0.3)';
+          });
+
+          // Floating animation with unique timing
+          orb.style.animationDelay = (index * 0.5) + 's';
+        });
+      }
+
+      // Day fragments reveal on scroll
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.transform = 'translateY(0) rotate(0deg)';
+            entry.target.style.opacity = '1';
+          }
+        });
+      }, { threshold: 0.3 });
+
+      // Observe fragments when they exist
+      function observeFragments() {
+        document.querySelectorAll('.memory-fragment').forEach(fragment => {
+          observer.observe(fragment);
+        });
+      }
+
+      // Initialize orbs and fragments when tapestry is revealed
+      const tapestryObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            const tapestry = mutation.target;
+            if (tapestry.classList.contains('unveiled')) {
+              setTimeout(() => {
+                initializeOrbs();
+                observeFragments();
+              }, 1000);
+            }
+          }
+        });
+      });
+
+      const tapestry = document.getElementById('journeyTapestry');
+      if (tapestry) {
+        tapestryObserver.observe(tapestry, { attributes: true });
+      }
+    }
+
+    // CSS Animation for ripple effect
+    const rippleStyle = document.createElement('style');
+    rippleStyle.textContent = `
+      @keyframes rippleExpand {
+        0% {
+          width: 0;
+          height: 0;
+          opacity: 1;
+        }
+        100% {
+          width: 200px;
+          height: 200px;
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(rippleStyle);
 
     // Cleanup on page unload
     window.addEventListener('beforeunload', () => {
