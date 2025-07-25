@@ -806,13 +806,13 @@
     .soul-thread-input {
       width: 100%;
       min-height: 180px;
-      border: 2px solid var(--dark-border);
-      background: rgba(42, 52, 65, 0.6);
+      border: 2px solid var(--current-border);
+      background: var(--current-surface);
       border-radius: 25px;
       padding: 2.5rem;
       font-size: 1.2rem;
       font-family: 'Inter', sans-serif;
-      color: var(--dark-text-primary);
+      color: var(--current-text-primary);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       resize: none;
       outline: none;
@@ -821,15 +821,25 @@
       backdrop-filter: blur(20px);
     }
 
+    body.light-mode .soul-thread-input {
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
     .soul-thread-input:focus {
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-      border-color: var(--dark-accent);
+      border-color: var(--current-accent);
       transform: translateY(-5px);
-      background: rgba(42, 52, 65, 0.8);
+      background: var(--current-surface-elevated);
+    }
+
+    body.light-mode .soul-thread-input:focus {
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     }
 
     .soul-thread-input::placeholder {
-      color: var(--dark-text-muted);
+      color: var(--current-text-muted);
       opacity: 0.8;
       font-style: italic;
       font-weight: 300;
@@ -1533,12 +1543,12 @@
       position: fixed;
       top: 2rem;
       right: 6rem;
-      background: linear-gradient(135deg, rgba(230, 179, 104, 0.2) 0%, rgba(42, 52, 65, 0.9) 100%);
+      background: linear-gradient(135deg, rgba(230, 179, 104, 0.2) 0%, var(--current-surface-elevated) 100%);
       backdrop-filter: blur(15px);
       border: 1px solid rgba(230, 179, 104, 0.4);
       border-radius: 25px;
       padding: 0.8rem 1.5rem;
-      color: var(--dark-text-primary);
+      color: var(--current-text-primary);
       font-weight: 500;
       cursor: pointer;
       transition: all 0.4s ease;
@@ -1546,11 +1556,35 @@
       box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     }
 
+    body.light-mode .auth-trigger {
+      background: linear-gradient(135deg, rgba(212, 112, 79, 0.1) 0%, rgba(255, 255, 255, 0.9) 100%);
+      border: 1px solid rgba(212, 112, 79, 0.3);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
     .auth-trigger:hover {
-      background: linear-gradient(135deg, rgba(230, 179, 104, 0.3) 0%, rgba(42, 52, 65, 1) 100%);
+      background: linear-gradient(135deg, rgba(230, 179, 104, 0.3) 0%, var(--current-surface) 100%);
       transform: translateY(-3px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-      border-color: var(--dark-accent);
+      border-color: var(--current-accent);
+    }
+
+    body.light-mode .auth-trigger:hover {
+      background: linear-gradient(135deg, rgba(212, 112, 79, 0.2) 0%, rgba(255, 255, 255, 0.95) 100%);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Back to Home button in sanctuary */
+    .cta-button[onclick="backToLanding()"] {
+      background: linear-gradient(135deg, rgba(230, 179, 104, 0.2) 0%, var(--current-surface-elevated) 100%) !important;
+      color: var(--current-text-primary) !important;
+      border: 1px solid rgba(230, 179, 104, 0.4) !important;
+    }
+
+    body.light-mode .cta-button[onclick="backToLanding()"] {
+      background: linear-gradient(135deg, rgba(212, 112, 79, 0.1) 0%, rgba(255, 255, 255, 0.9) 100%) !important;
+      color: var(--light-text-primary) !important;
+      border: 1px solid rgba(212, 112, 79, 0.3) !important;
     }
 
     /* Background Image Container - Remove global background */
