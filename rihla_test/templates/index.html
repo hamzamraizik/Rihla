@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riḥla - Voyage Narratif</title>
+  <style>
+    body { font-family: sans-serif; max-width: 700px; margin: auto; padding: 2rem; background: #f8f9fa; }
+    h1 { text-align: center; }
+    textarea, button { width: 100%; margin-top: 1rem; font-size: 1rem; }
+    .results { margin-top: 2rem; white-space: pre-wrap; background: #fff; padding: 1rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>🧭 Riḥla – Carte ton voyage avec l’âme</h1>
+  <textarea id="preference" rows="3" placeholder="Entrez un film, plat, artiste, livre..."></textarea>
+  <button onclick="discover()">Découvrir mon itinéraire</button>
+  <div class="results" id="output"></div>
+
+  <script>
+    async function discover() {
+      const pref = document.getElementById("preference").value;
+      const res = await fetch("/discover", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ preference: pref })
+      });
+      const data = await res.json();
+      document.getElementById("output").innerText = data.itinerary;
+    }
+  </script>
+</body>
+</html>
