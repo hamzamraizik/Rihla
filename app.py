@@ -11,7 +11,6 @@ from flask import Flask, render_template, request
 from qloo_api import search_qloo, get_recommendations, get_categories
 from gemini_api import generate_itinerary
 
-
 load_dotenv()
 
 app = Flask(__name__, static_folder='static', static_url_path='/static')
@@ -74,8 +73,6 @@ def auth_register():
         })
     else:
         return jsonify({'success': False, 'message': 'Invalid data'}), 400
-
-#@app.route('/discover', methods=['POST'])
 def extract_entities(text):
     doc = nlp(text)
     entities = set()
@@ -141,8 +138,7 @@ As their spiritual guide, weave a completely unique 5-day Riḥla (mystical jour
             items += [r.get("name") for r in recommendations[cat] if r.get("name")][:2]
         
         if items and inspiration_count < 15:  # Limit to avoid overwhelming
-            prompt += f"
-🎨 {cat.title()}: {', '.join(items[:3])}"
+            prompt += f"\n🎨 {cat.title()}: {', '.join(items[:3])}"
             inspiration_count += len(items[:3])
 
     # Select random locations to ensure variety
@@ -191,7 +187,6 @@ CREATIVE REQUIREMENTS:
 Remember: This is THEIR unique Riḥla, not a generic Morocco trip. Every detail should feel intentionally chosen for their soul."""
 
     return prompt
-
 
 def generate_fallback_itinerary(user_input, entities):
     """Generate a dynamic fallback itinerary when Gemini API is unavailable"""
@@ -385,8 +380,6 @@ def generate_fallback_itinerary(user_input, entities):
     
     return itinerary
 
-
-
 @app.route("/trip", methods=["GET", "POST"])
 def trip():
     itinerary = ""
@@ -414,9 +407,7 @@ def trip():
             recos = get_recommendations(ids_by_cat)
             prompt = build_prompt(user_text, qloo_results, recos)
             itinerary = generate_itinerary(prompt)
-            if not itinerary:
-                print("🔄 Gemini returned None, using fallback...")
-                itinerary = generate_fallback_itinerary(user_text, extracted_entities_list)
+            if not itinerary:                itinerary = generate_fallback_itinerary(user_text, extracted_entities_list)
 
         except Exception as e:
             error = f"Error: {e}"
@@ -425,9 +416,7 @@ def trip():
 
 @app.route('/api/test', methods=['GET'])
 def test_api():
-    """Simple test endpoint to verify API is working"""
-    print("🔥 TEST API ENDPOINT CALLED - Backend is working!")
-    return jsonify({
+    """Simple test endpoint to verify API is working"""    return jsonify({
         'success': True,
         'message': 'Backend API is working!',
         'timestamp': int(time.time())
@@ -439,21 +428,12 @@ def weave_journey():
     try:
         print("\n🌟 REAL BACKEND API CALLED - Starting journey weaving...")
         data = request.get_json()
-        user_text = data.get('soulThread', '')
-        
-        print(f"📝 User input received: {user_text[:100]}...")
-        
+        user_text = data.get('soulThread', '')        
         if not user_text:
             return jsonify({'success': False, 'message': 'Soul thread cannot be empty'}), 400
         
-        # Extract entities from user input
-        print("🔍 Extracting entities from user input...")
-        extracted_entities_list = extract_entities(user_text)
-        print(f"✨ Extracted entities: {extracted_entities_list}")
-
-        # Search Qloo for each entity
-        print("🔎 Searching Qloo API for recommendations...")
-        qloo_results = {}
+        # Extract entities from user input        extracted_entities_list = extract_entities(user_text)
+        # Search Qloo for each entity        qloo_results = {}
         for ent in extracted_entities_list:
             res = search_qloo(ent)
             for cat in CATEGORIES:
@@ -466,30 +446,15 @@ def weave_journey():
             cat: list({item["id"]: None for item in qloo_results.get(cat, []) if "id" in item}.keys())
             for cat in CATEGORIES
         }
-        print(f"🎯 Found recommendations for categories: {list(ids_by_cat.keys())}")
-
-        # Get recommendations
-        print("🌍 Getting detailed recommendations...")
-        recos = get_recommendations(ids_by_cat)
+        # Get recommendations        recos = get_recommendations(ids_by_cat)
         
-        # Build prompt and generate itinerary
-        print("🤖 Generating itinerary with Gemini AI...")
-        prompt = build_prompt(user_text, qloo_results, recos)
+        # Build prompt and generate itinerary        prompt = build_prompt(user_text, qloo_results, recos)
         
         try:
             itinerary = generate_itinerary(prompt)
-            if not itinerary:
-                print("🔄 Gemini returned None, using fallback...")
-                itinerary = generate_fallback_itinerary(user_text, extracted_entities_list)
-            print("🎉 REAL BACKEND SUCCESS - Journey generated successfully!")
-            print(f"📜 Generated itinerary preview: {itinerary[:200]}...")
-        except Exception as gemini_error:
-            print(f"⚠️ Gemini API Error: {str(gemini_error)}")
-            print("🔄 Falling back to mock itinerary...")
-            # Generate a fallback itinerary based on user input
+            if not itinerary:                itinerary = generate_fallback_itinerary(user_text, extracted_entities_list)
+            print("🎉 REAL BACKEND SUCCESS - Journey generated successfully!")        except Exception as gemini_error:            # Generate a fallback itinerary based on user input
             itinerary = generate_fallback_itinerary(user_text, extracted_entities_list)
-            print("🎭 Mock itinerary generated successfully!")
-
         return jsonify({
             'success': True,
             'itinerary': itinerary,
@@ -497,9 +462,7 @@ def weave_journey():
             'user_input': user_text
         })
 
-    except Exception as e:
-        print(f"❌ REAL BACKEND ERROR: {str(e)}")
-        return jsonify({
+    except Exception as e:        return jsonify({
             'success': False, 
             'message': f'Error generating journey: {str(e)}'
         }), 500
