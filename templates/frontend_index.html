@@ -2279,9 +2279,337 @@
       border: 1px solid rgba(212, 112, 79, 0.3) !important;
     }
 
-    /* Background Image Container - Remove global background */
-    .background-tapestry {
-      display: none;
+    /* ============================================ */
+    /* CLEAN DIRECT JOURNEY CARDS - NO BOXES! */
+    /* Remove all containers, show cards directly on screen */
+    /* ============================================ */
+    
+    /* Journey tapestry - full screen clean */
+    .journey-tapestry {
+      background: var(--current-primary) !important;
+      padding: 2rem !important;
+    }
+
+    /* Main journey title */
+    .journey-main-title {
+      text-align: center !important;
+      font-size: 4rem !important;
+      color: var(--sahara-gold) !important;
+      margin: 2rem 0 3rem 0 !important;
+      font-family: 'Playfair Display', serif !important;
+      font-weight: 600 !important;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7) !important;
+    }
+
+    /* Light mode main title */
+    body.light-mode .journey-main-title {
+      color: var(--deep-desert) !important;
+      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Direct journey cards container */
+    .journey-cards-direct {
+      width: 100% !important;
+      height: 100vh !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      position: relative !important;
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      max-width: none !important;
+      max-height: none !important;
+    }
+
+    /* Journey card container - direct display */
+    .journey-card-container {
+      width: 90% !important;
+      max-width: 1200px !important;
+      height: 70vh !important;
+      min-height: 600px !important;
+      display: flex !important;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+      margin: 0 auto !important;
+    }
+
+    /* Individual journey card - bigger and cleaner */
+    .journey-card {
+      width: 100% !important;
+      min-width: 100% !important;
+      height: 100% !important;
+      display: flex !important;
+      flex-shrink: 0 !important;
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    /* Day card - make it prominent and clean */
+    .day-card {
+      width: 100% !important;
+      height: 100% !important;
+      padding: 4rem !important;
+      background: linear-gradient(135deg, 
+        rgba(42, 52, 65, 0.98) 0%, 
+        rgba(51, 65, 85, 0.95) 100%) !important;
+      border-radius: 25px !important;
+      border: 3px solid rgba(230, 179, 104, 0.5) !important;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4) !important;
+      backdrop-filter: blur(20px) !important;
+      overflow-y: auto !important;
+      font-size: 1.4rem !important;
+      line-height: 1.8 !important;
+    }
+
+    /* Light mode day card */
+    body.light-mode .day-card {
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.98) 0%, 
+        rgba(248, 250, 252, 0.95) 100%) !important;
+      border: 3px solid rgba(212, 112, 79, 0.5) !important;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    /* Day card titles - much bigger with proper contrast */
+    .day-card-title {
+      font-size: 3.5rem !important;
+      margin-bottom: 2.5rem !important;
+      text-align: center !important;
+      color: var(--sahara-gold) !important;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7) !important;
+    }
+
+    /* Light mode day card title - dark text for light background */
+    body.light-mode .day-card-title {
+      color: var(--deep-desert) !important;
+      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Day card content - bigger text with proper contrast */
+    .day-card-content,
+    .day-description,
+    .day-details-content {
+      font-size: 1.5rem !important;
+      line-height: 1.9 !important;
+      color: var(--dark-text-primary) !important;
+    }
+
+    /* Light mode day card content - dark text for light background */
+    body.light-mode .day-card-content,
+    body.light-mode .day-description,
+    body.light-mode .day-details-content {
+      color: var(--light-text-primary) !important;
+    }
+
+    /* Day card headers and stars - visible in both modes */
+    .day-card-header {
+      border-bottom: 2px solid rgba(230, 179, 104, 0.3) !important;
+    }
+
+    body.light-mode .day-card-header {
+      border-bottom: 2px solid rgba(212, 112, 79, 0.3) !important;
+    }
+
+    .day-star {
+      color: var(--deep-desert) !important;
+      background: linear-gradient(135deg, rgba(230, 179, 104, 0.9) 0%, rgba(212, 112, 79, 0.8) 100%) !important;
+    }
+
+    /* Show more buttons - visible in both modes */
+    .show-more-btn {
+      background: rgba(230, 179, 104, 0.8) !important;
+      color: var(--deep-desert) !important;
+      border: 2px solid rgba(230, 179, 104, 1) !important;
+    }
+
+    body.light-mode .show-more-btn {
+      background: rgba(212, 112, 79, 0.8) !important;
+      color: white !important;
+      border: 2px solid rgba(212, 112, 79, 1) !important;
+    }
+
+    .show-more-btn:hover {
+      background: rgba(230, 179, 104, 1) !important;
+      color: var(--deep-desert) !important;
+    }
+
+    body.light-mode .show-more-btn:hover {
+      background: rgba(212, 112, 79, 1) !important;
+      color: white !important;
+    }
+
+    /* Remove all the nested box styles */
+    .sacred-scroll,
+    .journey-essence,
+    .memory-constellation,
+    .memory-fragments-container {
+      display: none !important;
+    }
+
+    /* Navigation arrows - bigger and more prominent */
+    .carousel-nav {
+      position: absolute !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      width: 80px !important;
+      height: 80px !important;
+      border-radius: 50% !important;
+      background: rgba(230, 179, 104, 0.9) !important;
+      border: 3px solid rgba(230, 179, 104, 1) !important;
+      color: var(--deep-desert) !important;
+      font-size: 2.5rem !important;
+      font-weight: bold !important;
+      cursor: pointer !important;
+      transition: all 0.3s ease !important;
+      z-index: 100 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    /* Light mode navigation arrows */
+    body.light-mode .carousel-nav {
+      background: rgba(212, 112, 79, 0.9) !important;
+      border: 3px solid rgba(212, 112, 79, 1) !important;
+      color: white !important;
+    }
+
+    .carousel-nav:hover {
+      background: rgba(230, 179, 104, 1) !important;
+      transform: translateY(-50%) scale(1.1) !important;
+      color: var(--deep-desert) !important;
+    }
+
+    body.light-mode .carousel-nav:hover {
+      background: rgba(212, 112, 79, 1) !important;
+      color: white !important;
+    }
+
+    .carousel-nav.prev {
+      left: 2rem !important;
+    }
+
+    .carousel-nav.next {
+      right: 2rem !important;
+    }
+
+    /* Card indicators - bigger and cleaner */
+    .carousel-indicators {
+      position: absolute !important;
+      bottom: 3rem !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      display: flex !important;
+      gap: 1rem !important;
+      z-index: 100 !important;
+    }
+
+    .indicator {
+      width: 20px !important;
+      height: 20px !important;
+      border-radius: 50% !important;
+      background: rgba(230, 179, 104, 0.4) !important;
+      border: 2px solid rgba(230, 179, 104, 0.8) !important;
+      cursor: pointer !important;
+      transition: all 0.3s ease !important;
+    }
+
+    /* Light mode indicators */
+    body.light-mode .indicator {
+      background: rgba(212, 112, 79, 0.4) !important;
+      border: 2px solid rgba(212, 112, 79, 0.8) !important;
+    }
+
+    .indicator.active {
+      background: rgba(230, 179, 104, 1) !important;
+      transform: scale(1.3) !important;
+    }
+
+    body.light-mode .indicator.active {
+      background: rgba(212, 112, 79, 1) !important;
+    }
+
+    /* Return portal - keep it visible */
+    .return-portal {
+      position: fixed !important;
+      top: 3rem !important;
+      left: 3rem !important;
+      width: 80px !important;
+      height: 80px !important;
+      border-radius: 50% !important;
+      background: rgba(230, 179, 104, 0.9) !important;
+      border: 3px solid rgba(230, 179, 104, 1) !important;
+      color: var(--deep-desert) !important;
+      font-size: 2.5rem !important;
+      font-weight: bold !important;
+      cursor: pointer !important;
+      transition: all 0.3s ease !important;
+      z-index: 1000 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    /* Light mode return portal */
+    body.light-mode .return-portal {
+      background: rgba(212, 112, 79, 0.9) !important;
+      border: 3px solid rgba(212, 112, 79, 1) !important;
+      color: white !important;
+    }
+
+    .return-portal:hover {
+      background: rgba(230, 179, 104, 1) !important;
+      transform: scale(1.1) !important;
+      color: var(--deep-desert) !important;
+    }
+
+    body.light-mode .return-portal:hover {
+      background: rgba(212, 112, 79, 1) !important;
+      color: white !important;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .journey-card-container {
+        width: 95% !important;
+        height: 60vh !important;
+      }
+      
+      .day-card {
+        padding: 2rem !important;
+        font-size: 1.2rem !important;
+      }
+      
+      .day-card-title {
+        font-size: 2.5rem !important;
+      }
+      
+      .carousel-nav {
+        width: 60px !important;
+        height: 60px !important;
+        font-size: 2rem !important;
+      }
+      
+      .carousel-nav.prev {
+        left: 1rem !important;
+      }
+      
+      .carousel-nav.next {
+        right: 1rem !important;
+      }
     }
   </style>
 </head>
@@ -2452,52 +2780,32 @@
     </div>
   </div>
 
-  <!-- Journey Result Tapestry - THE MEMORY CONSTELLATION -->
+  <!-- Journey Result Display - Clean and Direct -->
   <div class="journey-tapestry" id="journeyTapestry">
     <button class="return-portal" onclick="returnToSanctuary()" title="Return to sanctuary">
       ←
     </button>
     
-    <!-- The Memory Constellation Canvas -->
-    <div class="memory-constellation">
-      <!-- Floating Memory Orbs -->
-      <div class="memory-orb" style="top: 15%; left: 10%;">🏔️</div>
-      <div class="memory-orb" style="top: 25%; right: 15%;">🕌</div>
-      <div class="memory-orb" style="bottom: 30%; left: 20%;">🌅</div>
-      <div class="memory-orb" style="bottom: 20%; right: 25%;">🏛️</div>
-      <div class="memory-orb" style="top: 45%; left: 5%;">🐪</div>
-      <div class="memory-orb" style="top: 60%; right: 10%;">🌟</div>
-    </div>
+    <!-- Journey Title -->
+    <h1 class="journey-main-title">✨ Your Mystical Riḥla ✨</h1>
     
-    <!-- The Sacred Scroll - Central Journey Display -->
-    <div class="sacred-scroll">
-      <!-- Ancient Parchment Texture -->
-      <div class="journey-essence">
-        <div class="constellation-header">
-          <h2 class="journey-title">✨ Your Mystical Riḥla ✨</h2>
-        </div>
-        
-        <!-- Journey Content in Card Carousel Format -->
-        <div class="memory-fragments-container">
-          <div class="journey-carousel" id="journeyCarousel">
-            <div class="journey-card-container" id="cardContainer">
-              <!-- Journey cards will be dynamically inserted here -->
-            </div>
-            
-            <!-- Navigation Arrows -->
-            <button class="carousel-nav prev" id="prevBtn" onclick="previousCard()">
-              ←
-            </button>
-            <button class="carousel-nav next" id="nextBtn" onclick="nextCard()">
-              →
-            </button>
-            
-            <!-- Card Indicators -->
-            <div class="carousel-indicators" id="cardIndicators">
-              <!-- Indicators will be dynamically inserted here -->
-            </div>
-          </div>
-        </div>
+    <!-- Direct Journey Cards Display -->
+    <div class="journey-cards-direct" id="journeyCarousel">
+      <div class="journey-card-container" id="cardContainer">
+        <!-- Journey cards will be dynamically inserted here -->
+      </div>
+      
+      <!-- Navigation Arrows -->
+      <button class="carousel-nav prev" id="prevBtn" onclick="previousCard()">
+        ←
+      </button>
+      <button class="carousel-nav next" id="nextBtn" onclick="nextCard()">
+        →
+      </button>
+      
+      <!-- Card Indicators -->
+      <div class="carousel-indicators" id="cardIndicators">
+        <!-- Indicators will be dynamically inserted here -->
       </div>
     </div>
   </div>
@@ -3096,17 +3404,32 @@
       }, 3000);
 
       try {
-        // For frontend testing, use mock data instead of actual backend call
-        const mockJourneyData = generateMockJourney(soulInput);
+        // Call the real backend API instead of mock data
+        const response = await fetch('/api/weave-journey', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            soulThread: soulInput
+          })
+        });
+
+        const journeyData = await response.json();
         
-        // Simulate backend delay
-        await new Promise(resolve => setTimeout(resolve, 3000));
-        
-        await revealJourneyTapestry(mockJourneyData);
+        if (!response.ok) {
+          throw new Error(journeyData.message || 'Failed to weave journey');
+        }
+
+        if (journeyData.success) {
+          await revealJourneyTapestry(journeyData.itinerary);
+        } else {
+          throw new Error(journeyData.message || 'Journey weaving failed');
+        }
 
       } catch (error) {
         console.error('Weaving error:', error);
-        await handleWeavingError();
+        await handleWeavingError(error.message);
       }
     }
 
@@ -3514,7 +3837,7 @@ Experience authentic Gnawa music sessions where rhythm becomes prayer and desert
     }
 
     // Handle weaving errors gracefully
-    async function handleWeavingError() {
+    async function handleWeavingError(errorMessage = null) {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       document.getElementById('meditationState').classList.remove('active');
@@ -3522,10 +3845,15 @@ Experience authentic Gnawa music sessions where rhythm becomes prayer and desert
       
       // Elegant error presentation
       setTimeout(() => {
-        document.getElementById('journeyNarrative').textContent = 
-          "The cosmic threads seem tangled today... 🌟\n\n" +
+        const defaultMessage = "The cosmic threads seem tangled today... 🌟\n\n" +
           "Your soul is too complex to be woven at this moment. " +
           "Try again in a few moments, the spiritual loom will recalibrate.";
+        
+        const finalMessage = errorMessage ? 
+          `The loom whispers of a disturbance... 🌟\n\n${errorMessage}\n\nPlease try weaving your journey again.` : 
+          defaultMessage;
+        
+        document.getElementById('journeyNarrative').textContent = finalMessage;
         document.getElementById('journeyTapestry').classList.add('unveiled');
         isWeaving = false;
       }, 800);
