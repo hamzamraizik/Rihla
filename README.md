@@ -1,210 +1,329 @@
 # 🌟 Riḥla - Journey of the Soul
 
-> *"Not all those who wander are lost"* - Create your mystical journey through Morocco with AI
+**Riḥla** (Arabic: رحلة, meaning "journey") is an AI-powered travel itinerary generator that creates personalized, culturally immersive 5-day journeys through Morocco. Using advanced natural language processing and cultural intelligence APIs, Riḥla transforms your travel preferences into mystical, poetic travel experiences.
 
-Riḥla (Arabic: رحلة, meaning "journey") is an AI-powered travel planning application that creates personalized, poetic journeys through Morocco based on your soul's desires and cultural interests.
+## ✨ Features
 
-## ✨ What Makes Riḥla Special?
+- **AI-Powered Itinerary Generation**: Uses Google Gemini AI to create personalized travel experiences
+- **Cultural Intelligence**: Integrates with Qloo API for culture-aware recommendations
+- **Natural Language Processing**: Extracts meaningful entities from user preferences using spaCy
+- **Beautiful Web Interface**: Modern, responsive frontend with Moroccan-inspired design
+- **Fallback System**: Intelligent fallback when external APIs are unavailable
+- **Mock Authentication**: Ready-to-extend authentication system for user management
+- **Cross-Platform**: Works on any device with a web browser
 
-- 🎭 **AI-Powered Personalization**: Uses Google Gemini AI to create unique journeys
-- 🧠 **Smart Theme Detection**: Analyzes your input to detect travel themes (adventure, peaceful, romantic, cultural, etc.)
-- 🎨 **Cultural Intelligence**: Integrates with Qloo API for music, art, food, and cultural recommendations
-- 📝 **Poetic Storytelling**: Each journey is written like an epic poem by Ibn Battuta
-- 🌍 **Authentic Morocco**: Features real locations and authentic cultural experiences
-- 🔄 **Dynamic Content**: Every input generates a completely unique journey
+## 🛠️ Technology Stack
 
-## 🚀 Quick Start (For Everyone!)
+### Backend
+- **Flask** - Python web framework
+- **spaCy** - Natural language processing for entity extraction
+- **Google Gemini AI** - Advanced text generation for itineraries
+- **Qloo API** - Cultural recommendations and insights
+- **Flask-CORS** - Cross-origin resource sharing support
 
-### Step 1: Get the Code
+### Frontend
+- **HTML5/CSS3** - Modern web standards
+- **JavaScript** - Interactive user experience
+- **Responsive Design** - Mobile-first approach
+- **Moroccan-inspired UI** - Cultural design elements
+
+## 📋 Prerequisites
+
+Before running Riḥla, ensure you have:
+
+- **Python 3.7+** installed on your system
+- **pip** (Python package installer)
+- **Internet connection** for API access
+- **API Keys** (see configuration section)
+
+## 🚀 Quick Start
+
+### 1. Download the Project
 ```bash
-git clone https://github.com/hamzamraizik/Rihla.git
-cd Rihla
+# If you have the project as a zip file, extract it
+# If you have git access:
+git clone <repository-url>
+cd Rihla-main
 ```
 
-### Step 2: Set Up Your Environment
-You'll need API keys (don't worry, they're free!):
+### 2. Set Up Environment Variables
+Copy the example environment file and configure your API keys:
 
-1. **Copy the environment template:**
-   ```bash
-   cp .env.example .env
-   ```
-
-2. **Get your FREE API keys:**
-   
-   **🤖 Google Gemini API (Free):**
-   - Go to [Google AI Studio](https://aistudio.google.com/)
-   - Click "Get API Key" 
-   - Create a new API key
-   - Copy it
-   
-   **🎵 Qloo API (Free for developers):**
-   - Go to [Qloo Developer Portal](https://api.qloo.com/)
-   - Sign up for free
-   - Get your API key
-
-3. **Add your keys to `.env` file:**
-   ```bash
-   # Open .env file and add your keys:
-   GEMINI_API_KEY=your_gemini_key_here
-   QLOO_API_KEY=your_qloo_key_here
-   ```
-
-### Step 3: Run the Application
-
-**🐍 If you have Python:**
 ```bash
-# Install dependencies
+cp .env.example .env
+```
+
+Edit the `.env` file with your API keys:
+```bash
+# API Keys required for the Rihla application
+GEMINI_API_KEY=your_gemini_api_key_here
+QLOO_API_KEY=your_qloo_api_key_here
+```
+
+### 3. Install Dependencies
+```bash
 pip install -r requirements.txt
-
-# Run the app
-python app.py
 ```
 
-**🔧 Or use the startup script:**
+### 4. Install spaCy Language Model
+```bash
+python -m spacy download en_core_web_sm
+```
+
+### 5. Run the Application
+
+#### Option A: Using the provided start script (Recommended)
 ```bash
 chmod +x start.sh
 ./start.sh
 ```
 
-### Step 4: Open Your Browser
-Go to: `http://localhost:5001`
+#### Option B: Direct Python execution
+```bash
+python app.py
+```
+
+### 6. Access the Application
+Open your web browser and navigate to:
+```
+http://localhost:5001
+```
+
+## 🔑 API Keys Configuration
+
+### Getting Your API Keys
+
+#### Google Gemini API Key
+1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Sign in with your Google account
+3. Create a new API key
+4. Copy the key and add it to your `.env` file
+
+#### Qloo API Key
+1. Visit [Qloo Developer Portal](https://developer.qloo.com/)
+2. Sign up for a developer account
+3. Request access to the API
+4. Copy the provided API key to your `.env` file
+
+**Note**: The application includes intelligent fallback mechanisms, so it will work even if one API is temporarily unavailable.
 
 ## 🎯 How to Use Riḥla
 
-1. **Share Your Soul's Desires**: Type what kind of journey you want
-   - *"I want a peaceful spiritual journey to find inner peace"*
-   - *"Looking for an adventurous thrilling experience"*
-   - *"Romantic getaway with beautiful sunsets"*
-   - *"Cultural immersion in authentic traditions"*
+### Step-by-Step User Guide
 
-2. **Let AI Weave Your Journey**: The AI analyzes your input and creates a unique 5-day Riḥla
+1. **Open the Application**
+   - Navigate to `http://localhost:5001` in your browser
+   - You'll see the beautiful Riḥla homepage
 
-3. **Discover Your Mystical Morocco**: Get a personalized, poetic journey with:
-   - Day-by-day itineraries
-   - Emotional storytelling
-   - Real cultural experiences
-   - Pricing and best travel times
+2. **Describe Your Travel Preferences**
+   - Click on the journey input area
+   - Describe your interests, preferred activities, or cultural preferences
+   - Examples:
+     - "I love traditional music and want to experience authentic Moroccan cuisine"
+     - "I'm interested in history, architecture, and desert adventures"
+     - "Art galleries, local crafts, and mountain hiking appeal to me"
 
-## 🛠️ For Developers
+3. **Generate Your Journey**
+   - Click the "Weave My Journey" button
+   - The AI will process your preferences
+   - Cultural recommendations are gathered from Qloo
+   - A personalized 5-day itinerary is generated
 
-### Tech Stack
-- **Backend**: Python Flask
-- **AI**: Google Gemini 1.5 Flash
-- **Cultural Data**: Qloo API
-- **NLP**: spaCy
-- **Frontend**: HTML, CSS, JavaScript
+4. **Review Your Mystical Riḥla**
+   - Your itinerary will appear with:
+     - Daily activities and experiences
+     - Cultural insights and recommendations
+     - Estimated costs and best travel times
+     - Poetic descriptions that transport you to Morocco
 
-### Project Structure
+## 📱 Application Features
+
+### Main Interface (`/`)
+- **Beautiful Landing Page**: Moroccan-inspired design with cultural elements
+- **Journey Input**: Natural language input for travel preferences
+- **Responsive Design**: Works perfectly on desktop and mobile devices
+
+### Journey Generation (`/api/weave-journey`)
+- **AI Processing**: Advanced natural language understanding
+- **Cultural Integration**: Qloo API for authentic recommendations
+- **Smart Fallbacks**: Works even when external APIs are down
+- **Real-time Feedback**: Live updates during processing
+
+### Legacy Interface (`/trip`)
+- **Simple Form**: Basic form-based input
+- **Direct Processing**: Immediate itinerary generation
+- **Error Handling**: Clear error messages and feedback
+
+## 🏗️ Project Structure
+
 ```
-Riḥla/
-├── app.py              # Main Flask application
-├── gemini_api.py       # Google Gemini AI integration
-├── qloo_api.py         # Qloo cultural data API
-├── requirements.txt    # Python dependencies
-├── start.sh           # Easy startup script
-├── .env.example       # Environment variables template
-├── static/            # Images and assets
-├── templates/         # HTML templates
-└── README.md          # This file
+Rihla-main/
+├── app.py                          # Main Flask application
+├── gemini_api.py                   # Google Gemini AI integration
+├── qloo_api.py                     # Qloo cultural API integration
+├── requirements.txt                # Python dependencies
+├── start.sh                        # Startup script
+├── .env.example                    # Environment variables template
+├── static/
+│   └── Rihla_background.png       # Background image assets
+├── templates/
+│   ├── frontend_index.html        # Main application interface
+│   ├── index.html                 # Basic index page
+│   ├── trip.html                  # Legacy trip planning interface
+│   └── journey_styles_patch.css   # Additional styling
+└── __pycache__/                   # Python cache files
 ```
 
-### Key Features Implementation
+## 🔧 Configuration Options
 
-**🧠 Smart Theme Detection:**
-```python
-emotional_keywords = {
-    'adventure': ['adventure', 'exciting', 'thrill', 'explore'],
-    'peaceful': ['peaceful', 'calm', 'serene', 'meditation'],
-    'cultural': ['culture', 'history', 'tradition', 'authentic'],
-    # ... more themes
+### Environment Variables
+- `GEMINI_API_KEY`: Your Google Gemini AI API key
+- `QLOO_API_KEY`: Your Qloo cultural intelligence API key
+
+### Application Settings
+- **Port**: Default is 5001 (configurable in `app.py`)
+- **Debug Mode**: Enabled by default for development
+- **CORS**: Enabled for cross-origin requests
+
+## 🛠️ Development
+
+### Running in Development Mode
+```bash
+export FLASK_ENV=development
+python app.py
+```
+
+### Adding New Features
+1. **Cultural Categories**: Modify `CATEGORIES` in `qloo_api.py`
+2. **Itinerary Formats**: Update the prompt template in `app.py`
+3. **UI Customization**: Edit templates in the `templates/` directory
+4. **API Endpoints**: Add new routes in `app.py`
+
+## 📝 API Reference
+
+### Endpoints
+
+#### `POST /api/weave-journey`
+Creates a personalized journey based on user preferences.
+
+**Request Body:**
+```json
+{
+  "soulThread": "Your travel preferences and interests"
 }
 ```
 
-**🎨 Dynamic Prompt Engineering:**
-- Analyzes user input for emotional themes
-- Creates unique seed based on input hash for reproducible variety
-- Incorporates cultural recommendations from Qloo API
-- Uses Ibn Battuta persona for poetic storytelling
-
-**🔄 Intelligent Fallback System:**
-- When Gemini API is unavailable, uses theme-aware fallback
-- Still analyzes user input for personalization
-- Maintains quality and uniqueness
-
-### API Endpoints
-
-- `GET /` - Main application
-- `POST /api/weave-journey` - Generate journey (main endpoint)
-- `POST /api/debug-prompt` - Debug prompt generation
-- `GET /api/test` - Test API connectivity
-
-## 🚀 Deploy Your Demo
-
-### Option 1: Render (Recommended)
-1. Fork this repository
-2. Connect to [Render.com](https://render.com)
-3. Add environment variables in Render dashboard
-4. Deploy!
-
-### Option 2: Railway
-1. Connect repository to [Railway.app](https://railway.app)
-2. Set environment variables
-3. One-click deploy!
-
-### Option 3: Heroku
-```bash
-heroku create your-rihla-app
-heroku config:set GEMINI_API_KEY=your_key
-heroku config:set QLOO_API_KEY=your_key
-git push heroku main
+**Response:**
+```json
+{
+  "success": true,
+  "itinerary": "Generated 5-day itinerary...",
+  "journey_title": "Your Mystical Riḥla Through Morocco",
+  "user_input": "User's original input"
+}
 ```
+
+#### `GET /api/test`
+Simple endpoint to verify the API is working.
+
+#### `POST /auth/login` & `POST /auth/register`
+Mock authentication endpoints for future user management features.
+
+## 🚨 Troubleshooting
+
+### Common Issues and Solutions
+
+#### 1. **"Module not found" errors**
+```bash
+# Ensure all dependencies are installed
+pip install -r requirements.txt
+
+# Install spaCy language model
+python -m spacy download en_core_web_sm
+```
+
+#### 2. **"API key not found" errors**
+- Verify your `.env` file exists and contains valid API keys
+- Ensure the `.env` file is in the same directory as `app.py`
+- Check that your API keys are active and have proper permissions
+
+#### 3. **"Port already in use" errors**
+```bash
+# Find and kill the process using port 5001
+lsof -ti:5001 | xargs kill -9
+
+# Or change the port in app.py
+app.run(debug=True, host='0.0.0.0', port=5002)
+```
+
+#### 4. **spaCy model not found**
+```bash
+# Download the required English language model
+python -m spacy download en_core_web_sm
+```
+
+#### 5. **CORS errors in browser**
+- The application includes CORS support
+- If issues persist, check your browser's console for specific errors
+
+### Getting Help
+- Check the console output for detailed error messages
+- Verify all dependencies are correctly installed
+- Ensure your API keys are valid and active
+- Try the fallback mode if external APIs are unavailable
+
+## 🌟 Usage Examples
+
+### Example User Inputs
+
+**Cultural Explorer:**
+```
+"I'm fascinated by traditional Moroccan music, especially Gnawa, and I love exploring ancient architecture and learning about local crafts."
+```
+
+**Adventure Seeker:**
+```
+"I want to experience the Sahara Desert, hike in the Atlas Mountains, and taste authentic Moroccan cuisine in local markets."
+```
+
+**Art Enthusiast:**
+```
+"Contemporary art galleries, traditional pottery workshops, and Islamic calligraphy are my passions. I also enjoy photography."
+```
+
+## 🎨 Customization
+
+### Theming
+The application supports both light and dark themes with Moroccan-inspired color schemes:
+- **Moroccan Terracotta**: #D4704F
+- **Deep Desert**: #1A2F47
+- **Sahara Gold**: #E6B368
+- **Atlas Blue**: #2C5282
+
+### Adding New Destinations
+To extend beyond Morocco:
+1. Update the prompt template in `build_prompt()` function
+2. Modify the fallback itinerary generator
+3. Adjust cultural categories in `qloo_api.py`
+
+## 📄 License
+
+This project is open source. Please check with the project maintainers for specific license terms.
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-## 📝 License
+## 🌍 About Riḥla
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Ibn Battuta** - The greatest traveler in history, our spiritual guide
-- **Morocco** - The land of mystical journeys and rich culture
-- **Google Gemini** - For powering our AI storytelling
-- **Qloo** - For cultural intelligence and recommendations
-
-## 🆘 Troubleshooting
-
-**"Dependencies not found"**
-```bash
-pip install -r requirements.txt
-```
-
-**"API Key not working"**
-- Make sure your `.env` file has the correct keys
-- Check that keys are valid and not expired
-
-**"Port already in use"**
-- The app runs on port 5001 by default
-- Check if another app is using this port
-
-**"Gemini API Error"**
-- App automatically falls back to mock data
-- Check your internet connection and API key
-
-## 🌟 Example Journeys
-
-**Input:** *"I want a peaceful spiritual journey"*
-**Output:** A 5-day mystical journey through Chefchaouen, Fes, and the Sahara focusing on meditation, sacred sites, and inner peace.
-
-**Input:** *"Adventure and thrills in Morocco"*
-**Output:** An action-packed journey through the Atlas Mountains, Todra Gorge, and desert with hiking, climbing, and extreme sports.
+Riḥla (رحلة) means "journey" in Arabic and refers to the traditional Islamic travel literature genre. This application honors that tradition by creating meaningful, culturally-rich travel experiences that go beyond typical tourism to offer genuine cultural immersion and understanding.
 
 ---
 
-*Made with ❤️ for wanderers and dreamers seeking their perfect Riḥla*
+**Made with ❤️ for travelers seeking authentic cultural experiences**
+
+*Journey into the soul of Morocco with AI-powered cultural intelligence.*

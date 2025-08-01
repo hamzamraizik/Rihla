@@ -11,6 +11,7 @@ from flask import Flask, render_template, request
 from qloo_api import search_qloo, get_recommendations, get_categories
 from gemini_api import generate_itinerary
 
+
 load_dotenv()
 
 app = Flask(__name__, static_folder='static', static_url_path='/static')
@@ -73,6 +74,8 @@ def auth_register():
         })
     else:
         return jsonify({'success': False, 'message': 'Invalid data'}), 400
+
+#@app.route('/discover', methods=['POST'])
 def extract_entities(text):
     doc = nlp(text)
     entities = set()
@@ -81,304 +84,104 @@ def extract_entities(text):
             entities.add(ent.text)
     return list(entities)
 
-def build_prompt(user_input, entities, recommendations):
-    """Build a dynamic, creative prompt that incorporates user's specific desires and interests"""
-    
-    # Analyze user input for emotions, themes, and specific interests
-    user_lower = user_input.lower()
-    
-    # Detect emotional tone and travel style
-    emotional_keywords = {
-        'adventure': ['adventure', 'exciting', 'thrill', 'explore', 'discover', 'wild', 'extreme'],
-        'peaceful': ['peaceful', 'calm', 'serene', 'quiet', 'meditation', 'relax', 'tranquil'],
-        'cultural': ['culture', 'history', 'tradition', 'authentic', 'local', 'heritage'],
-        'romantic': ['romantic', 'love', 'couple', 'intimate', 'sunset', 'beautiful'],
-        'spiritual': ['spiritual', 'soul', 'enlighten', 'sacred', 'pilgrimage', 'divine'],
-        'luxury': ['luxury', 'premium', 'exclusive', 'comfort', 'high-end', 'sophisticated'],
-        'budget': ['budget', 'cheap', 'affordable', 'backpack', 'simple', 'modest']
-    }
-    
-    detected_themes = []
-    for theme, keywords in emotional_keywords.items():
-        if any(keyword in user_lower for keyword in keywords):
-            detected_themes.append(theme)
-    
-    # If no specific themes detected, default to cultural
-    if not detected_themes:
-        detected_themes = ['cultural']
-    
-    # Create a unique random seed based on user input to ensure variety
-    import hashlib
-    import random
-    seed = int(hashlib.md5(user_input.encode()).hexdigest()[:8], 16)
-    random.seed(seed)
-    
-    # Moroccan cities and regions for variety
-    moroccan_locations = [
-        'Marrakech', 'Fes', 'Chefchaouen', 'Essaouira', 'Casablanca', 'Rabat',
-        'Meknes', 'Ouarzazate', 'Merzouga', 'Imlil', 'Dades Valley', 'Ait Benhaddou',
-        'Tangier', 'Asilah', 'Ifrane', 'Todra Gorge', 'Agadir', 'Taghazout'
-    ]
-    
-    # Build the enhanced prompt
-    prompt = f"""You are Ibn Battuta reborn, a mystical Moroccan storyteller and the greatest travel poet of all time. A soul has shared their deepest travel desires with you: "{user_input}"
-
-As their spiritual guide, weave a completely unique 5-day Riḥla (mystical journey) through Morocco that captures their essence. Make this journey feel like it was crafted specifically for their soul.
-
-🎭 THEIR SOUL SEEKS: {', '.join(detected_themes).title()} experiences
-🌍 INCORPORATE THESE INSPIRATIONS (but don't limit yourself to them):"""
-
-    # Add cultural inspirations from APIs
-    inspiration_count = 0
-    for cat in ["film", "music", "book", "travel", "cuisine"]:  # CATEGORIES
-        items = []
+def build_prompt(entities, recommendations):
+    prompt = (
+        "You are a Moroccan poet and storyteller. "
+        "Compose a 5-day itinerary based on the following cultural preferences:\n"
+    )
+    for cat in CATEGORIES:
+        prompt += f"\n{cat.title()}:\n"
+        names = []
         if cat in entities and entities[cat]:
-            items += [e.get("name") for e in entities[cat] if e.get("name")][:3]
+            names += [e.get("name") for e in entities[cat] if e.get("name")]
         if cat in recommendations and recommendations[cat]:
-            items += [r.get("name") for r in recommendations[cat] if r.get("name")][:2]
-        
-        if items and inspiration_count < 15:  # Limit to avoid overwhelming
-            prompt += f"\n🎨 {cat.title()}: {', '.join(items[:3])}"
-            inspiration_count += len(items[:3])
+            names += [r.get("name") for r in recommendations[cat] if r.get("name")]
+        for name in names:
+            prompt += f"- {name}\n"
 
-    # Select random locations to ensure variety
-    selected_locations = random.sample(moroccan_locations, min(5, len(moroccan_locations)))
-    
-    prompt += f"""
-
-🗺️ SUGGESTED MOROCCAN GEMS TO CONSIDER: {', '.join(selected_locations)}
-
-Now create their UNIQUE mystical journey following this format:
+    prompt += """
+Generate an immersive and emotional journey through Morocco that follows this exact format:
 
 🌟 Your Mystical Riḥla Through Morocco 🌟
-*"A journey woven for your soul based on: {user_input[:50]}..."*
 
-🏜️ **Day 1: [Poetic Title] - [Emotional Subtitle]**
-[Create a vivid, sensory-rich opening day that directly reflects their stated desires. Make it feel personal and unique to their input. Include specific activities, sights, sounds, smells, and emotions they'll experience. Reference their interests subtly.]
+🏜️ **Day 1: [Title] - [Subtitle]**
+[Detailed description of the day's activities, experiences, and emotions]
 
-🏛️ **Day 2: [Poetic Title] - [Emotional Subtitle]**
-[Design a day that builds on Day 1 but explores a different facet of their personality/interests. Make each location and activity feel carefully chosen for them specifically.]
+🏛️ **Day 2: [Title] - [Subtitle]**
+[Detailed description of the day's activities, experiences, and emotions]
 
-🏔️ **Day 3: [Poetic Title] - [Emotional Subtitle]**
-[Create the journey's emotional peak - something that would truly move them based on what they've shared. Make it transformative.]
+🏔️ **Day 3: [Title] - [Subtitle]**
+[Detailed description of the day's activities, experiences, and emotions]
 
-🌊 **Day 4: [Poetic Title] - [Emotional Subtitle]**
-[Design a day that reflects and deepens their journey. Show how Morocco is changing them.]
+🌊 **Day 4: [Title] - [Subtitle]**
+[Detailed description of the day's activities, experiences, and emotions]
 
-🌅 **Day 5: [Poetic Title] - [Emotional Subtitle]**
-[Create a powerful conclusion that brings their journey full circle and connects to their original desires. Make it unforgettable.]
+🌅 **Day 5: [Title] - [Subtitle]**
+[Detailed description of the day's activities, experiences, and emotions]
 
-✨ *Total Journey Investment: $[realistic amount] per person*
-🌙 *Best Time: [specific months based on activities]*
-🎭 *Cultural Immersion Level: [High/Medium/Mystical]*
+✨ *Total Journey Investment: $[amount] per person*
+🌙 *Best Time: [timeframe]*
+🎭 *Cultural Immersion Level: [level]*
 
-CREATIVE REQUIREMENTS:
-- Make each day title poetic and evocative
-- Write as if you're composing an epic poem about their specific journey
-- Include rich sensory details (sounds, smells, textures, colors)
-- Reference their specific interests and desires throughout
-- Make activities feel personally curated for them
-- Use different Moroccan locations and experiences for variety
-- Write in second person ("you will...", "your soul will...")
-- Include specific cultural elements that match their vibe
-- Make each paragraph flow like a beautiful story
-- Ensure no day feels generic or template-like
-
-Remember: This is THEIR unique Riḥla, not a generic Morocco trip. Every detail should feel intentionally chosen for their soul."""
-
+Make the descriptions poetic, immersive, and emotionally engaging. Use emojis for each day and write in a way that transports the reader to Morocco. Each day should be at least 2-3 sentences long with vivid sensory details.
+"""
     return prompt
 
 def generate_fallback_itinerary(user_input, entities):
-    """Generate a dynamic fallback itinerary when Gemini API is unavailable"""
+    """Generate a fallback itinerary when Gemini API is unavailable"""
     
-    import hashlib
-    import random
+    # Create a Morocco-themed itinerary based on user interests
+    base_themes = {
+        'music': ['Gnawa music performances', 'traditional Andalusian music', 'desert blues concerts'],
+        'art': ['Hassan II Mosque architecture', 'traditional crafts workshops', 'contemporary art galleries'],
+        'food': ['tagine cooking classes', 'spice market tours', 'traditional mint tea ceremonies'],
+        'history': ['ancient medinas exploration', 'Roman ruins visits', 'Berber cultural sites'],
+        'nature': ['Sahara Desert camps', 'Atlas Mountains hiking', 'coastal walks in Essaouira']
+    }
     
-    # Create a unique seed based on user input for variety
-    seed = int(hashlib.md5(user_input.encode()).hexdigest()[:8], 16)
-    random.seed(seed)
-    
+    # Determine main theme from user input
+    main_theme = 'general'
     user_lower = user_input.lower()
+    for theme, activities in base_themes.items():
+        if theme in user_lower or any(word in user_lower for word in theme.split()):
+            main_theme = theme
+            break
     
-    # Analyze user input for themes and emotions
-    themes = {
-        'adventure': ['adventure', 'exciting', 'thrill', 'explore', 'discover', 'active'],
-        'peaceful': ['peaceful', 'calm', 'serene', 'quiet', 'meditation', 'relax'],
-        'cultural': ['culture', 'history', 'tradition', 'authentic', 'local', 'heritage'],
-        'romantic': ['romantic', 'love', 'couple', 'intimate', 'sunset'],
-        'spiritual': ['spiritual', 'soul', 'enlighten', 'sacred', 'divine'],
-        'artistic': ['art', 'creative', 'music', 'craft', 'design', 'beautiful'],
-        'culinary': ['food', 'cuisine', 'taste', 'cooking', 'flavor', 'eat']
-    }
+    # Check entities for more specific themes
+    if entities:
+        for entity in entities:
+            entity_lower = entity.lower()
+            if 'music' in entity_lower or 'gnawa' in entity_lower:
+                main_theme = 'music'
+            elif 'art' in entity_lower or 'craft' in entity_lower:
+                main_theme = 'art'
+            elif 'food' in entity_lower or 'cuisine' in entity_lower:
+                main_theme = 'food'
     
-    detected_themes = []
-    for theme, keywords in themes.items():
-        if any(keyword in user_lower for keyword in keywords):
-            detected_themes.append(theme)
-    
-    if not detected_themes:
-        detected_themes = ['cultural']
-    
-    # Dynamic activities based on themes
-    theme_activities = {
-        'adventure': {
-            'locations': ['Atlas Mountains', 'Todra Gorge', 'Merzouga Dunes', 'Imlil Valley'],
-            'activities': ['mountain hiking', 'rock climbing', 'sandboarding', 'quad biking'],
-            'experiences': ['sunrise camel trek', 'canyoning adventure', 'desert camping under stars']
-        },
-        'peaceful': {
-            'locations': ['Ifrane', 'Chefchaouen', 'Essaouira gardens', 'Ourika Valley'],
-            'activities': ['meditation sessions', 'peaceful walks', 'spa treatments', 'yoga'],
-            'experiences': ['sunrise meditation', 'tranquil garden visits', 'healing hammam rituals']
-        },
-        'cultural': {
-            'locations': ['Fes medina', 'Meknes', 'Volubilis', 'Ait Benhaddou'],
-            'activities': ['artisan workshops', 'historical tours', 'traditional performances'],
-            'experiences': ['meeting master craftsmen', 'traditional music shows', 'storytelling sessions']
-        },
-        'romantic': {
-            'locations': ['Marrakech', 'Essaouira', 'Ouarzazate', 'Dades Valley'],
-            'activities': ['sunset dinners', 'private tours', 'couple\'s spa', 'rooftop experiences'],
-            'experiences': ['candlelit dinners', 'private desert camp', 'romantic sunset rides']
-        },
-        'spiritual': {
-            'locations': ['Fes', 'Moulay Idriss', 'Hassan II Mosque', 'Sahara Desert'],
-            'activities': ['mosque visits', 'pilgrimage sites', 'meditation retreats'],
-            'experiences': ['spiritual ceremonies', 'sacred site visits', 'desert contemplation']
-        },
-        'artistic': {
-            'locations': ['Marrakech souks', 'Essaouira', 'Tetouan', 'Safi'],
-            'activities': ['pottery workshops', 'painting classes', 'music sessions', 'gallery visits'],
-            'experiences': ['creating with master artists', 'traditional craft learning', 'art gallery tours']
-        },
-        'culinary': {
-            'locations': ['Marrakech', 'Fes', 'Tangier', 'Casablanca'],
-            'activities': ['cooking classes', 'market tours', 'food tastings', 'spice workshops'],
-            'experiences': ['tagine cooking', 'spice market exploration', 'traditional tea ceremonies']
-        }
-    }
-    
-    # Select primary theme for the journey
-    primary_theme = detected_themes[0] if detected_themes else 'cultural'
-    
-    # Get activities for the primary theme
-    theme_data = theme_activities.get(primary_theme, theme_activities['cultural'])
-    
-    # Moroccan cities pool for variety
-    all_cities = ['Marrakech', 'Fes', 'Chefchaouen', 'Essaouira', 'Casablanca', 'Rabat',
-                  'Meknes', 'Ouarzazate', 'Merzouga', 'Imlil', 'Tangier', 'Asilah']
-    
-    # Select 5 different locations
-    selected_locations = random.sample(theme_data['locations'] + all_cities, 5)
-    
-    # Price range based on theme
-    price_ranges = {
-        'adventure': (1400, 2200),
-        'peaceful': (1200, 1800),
-        'cultural': (1000, 1600),
-        'romantic': (1800, 2800),
-        'spiritual': (900, 1500),
-        'artistic': (1300, 2000),
-        'culinary': (1500, 2300)
-    }
-    
-    min_price, max_price = price_ranges.get(primary_theme, (1200, 1800))
-    price = random.randint(min_price, max_price)
-    
-    # Generate themed days
-    days = [
-        {
-            'title': f"Arrival in {selected_locations[0]}",
-            'subtitle': "The Journey Begins",
-            'location': selected_locations[0],
-            'activities': theme_data['activities'][:2],
-            'experience': theme_data['experiences'][0] if theme_data['experiences'] else 'immersive local experiences'
-        },
-        {
-            'title': f"Exploring {selected_locations[1]}",
-            'subtitle': "Deeper Discoveries", 
-            'location': selected_locations[1],
-            'activities': theme_data['activities'][1:3] if len(theme_data['activities']) > 1 else theme_data['activities'],
-            'experience': theme_data['experiences'][1] if len(theme_data['experiences']) > 1 else 'authentic cultural encounters'
-        },
-        {
-            'title': f"Heart of {selected_locations[2]}",
-            'subtitle': "Soul Connection",
-            'location': selected_locations[2],
-            'activities': theme_data['activities'][2:] if len(theme_data['activities']) > 2 else theme_data['activities'],
-            'experience': theme_data['experiences'][2] if len(theme_data['experiences']) > 2 else 'transformative moments'
-        },
-        {
-            'title': f"Journey to {selected_locations[3]}",
-            'subtitle': "New Perspectives",
-            'location': selected_locations[3],
-            'activities': random.sample(theme_data['activities'], min(2, len(theme_data['activities']))),
-            'experience': random.choice(theme_data['experiences']) if theme_data['experiences'] else 'meaningful connections'
-        },
-        {
-            'title': f"Farewell in {selected_locations[4]}",
-            'subtitle': "Integration & Reflection",
-            'location': selected_locations[4],
-            'activities': ['reflection sessions', 'final experiences', 'departure preparations'],
-            'experience': 'closure and integration of your journey'
-        }
-    ]
-    
-    # Build the itinerary
-    itinerary = f"""🌟 Your Mystical Riḥla Through Morocco 🌟
-*"A {primary_theme} journey woven for your soul based on: {user_input[:60]}..."*
+    fallback_itinerary = f"""🌟 Your Mystical Riḥla Through Morocco 🌟
 
-"""
-    
-    emojis = ['🏜️', '🏛️', '🏔️', '🌊', '��']
-    
-    for i, day in enumerate(days):
-        activities_text = ', '.join(day['activities'][:2])
-        
-        day_description = f"""Your journey to {day['location']} unfolds with {activities_text}. """
-        
-        if primary_theme == 'adventure':
-            day_description += f"Feel your heart race as you engage in {day['experience']}. The rugged beauty of Morocco challenges and inspires you."
-        elif primary_theme == 'peaceful':
-            day_description += f"Allow the tranquil energy of this place to wash over you during {day['experience']}. Find deep inner peace."
-        elif primary_theme == 'cultural':
-            day_description += f"Immerse yourself in centuries-old traditions through {day['experience']}. Connect with Morocco's rich heritage."
-        elif primary_theme == 'romantic':
-            day_description += f"Share intimate moments during {day['experience']}. Let Morocco's beauty deepen your connection."
-        elif primary_theme == 'spiritual':
-            day_description += f"Open your soul to divine experiences through {day['experience']}. Discover sacred wisdom."
-        elif primary_theme == 'artistic':
-            day_description += f"Express your creativity through {day['experience']}. Let Morocco's artistry inspire your own."
-        elif primary_theme == 'culinary':
-            day_description += f"Savor the exquisite flavors during {day['experience']}. Taste the soul of Moroccan cuisine."
-        else:
-            day_description += f"Experience the magic through {day['experience']}. Let Morocco transform you."
-        
-        itinerary += f"""{emojis[i]} **Day {i+1}: {day['title']} - {day['subtitle']}**
-{day_description} The sights, sounds, and aromas create a symphony for your senses, leaving you forever changed.
+🏜️ **Day 1: Arrival in Marrakech - The Red City Awakens**
+Begin your journey in the heart of Morocco's imperial cities. Explore the vibrant Jemaa el-Fnaa square as snake charmers and storytellers weave their magic. Wander through the labyrinthine souks, where the scent of spices and the sound of traditional music fill the air. {base_themes.get(main_theme, ['Enjoy local experiences'])[0] if main_theme != 'general' else 'Immerse yourself in the bustling atmosphere'}. End your day with a traditional hammam experience.
 
-"""
-    
-    # Seasonal recommendation based on theme
-    seasons = {
-        'adventure': 'March-May, September-November',
-        'peaceful': 'October-April',
-        'cultural': 'October-May',
-        'romantic': 'April-June, September-November', 
-        'spiritual': 'Year-round',
-        'artistic': 'October-May',
-        'culinary': 'October-May'
-    }
-    
-    season = seasons.get(primary_theme, 'October-May')
-    
-    itinerary += f"""✨ *Total Journey Investment: ${price:,} per person*
-🌙 *Best Time: {season}*
-🎭 *Cultural Immersion Level: Mystical*
+🏛️ **Day 2: Fes - The Spiritual Capital**
+Travel to Fes, Morocco's spiritual and intellectual capital. Visit the ancient University of Al-Qarawiyyin, one of the world's oldest universities. Explore the UNESCO World Heritage medina with its 9,000 narrow alleys. {base_themes.get(main_theme, ['Discover traditional crafts'])[1] if main_theme != 'general' and len(base_themes.get(main_theme, [])) > 1 else 'Witness master craftsmen at work in their traditional workshops'}. The tanneries offer a glimpse into centuries-old leather-making techniques.
 
-*This {primary_theme} journey has been crafted specifically for your soul's calling.*"""
-    
-    return itinerary
+🏔️ **Day 3: Atlas Mountains - Berber Villages**
+Journey into the High Atlas Mountains to discover authentic Berber culture. Visit traditional villages where time seems to stand still. Learn about ancient customs and traditions passed down through generations. {base_themes.get(main_theme, ['Experience mountain culture'])[2] if main_theme != 'general' and len(base_themes.get(main_theme, [])) > 2 else 'Enjoy panoramic views and fresh mountain air'}. Share mint tea with local families and hear stories of mountain life.
+
+🌊 **Day 4: Essaouira - The Wind City**
+Discover the coastal charm of Essaouira, where Atlantic winds have shaped both landscape and culture. Explore the Portuguese-influenced medina and walk along the historic ramparts. {base_themes.get(main_theme, ['Enjoy coastal activities'])[0] if main_theme != 'general' else 'Watch fishermen bring in their daily catch'}. The city's artistic soul shines through its galleries and music scene.
+
+🌅 **Day 5: Sahara Desert - Under the Stars**
+Complete your journey with a magical night in the Sahara Desert. Ride camels across golden dunes as the sun sets over the endless landscape. Experience the profound silence of the desert and sleep under a canopy of stars. {base_themes.get(main_theme, ['Desert cultural experiences'])[0] if main_theme != 'general' else 'Listen to traditional Berber music around the campfire'}. This final experience will connect you deeply with Morocco's nomadic heritage.
+
+✨ *Total Journey Investment: $1,200-1,800 per person*
+🌙 *Best Time: October-April for perfect weather*
+🎭 *Cultural Immersion Level: Deep and Authentic*
+
+*Note: This itinerary was crafted with care during high demand. Your journey awaits!*"""
+
+    return fallback_itinerary
 
 @app.route("/trip", methods=["GET", "POST"])
 def trip():
@@ -405,9 +208,8 @@ def trip():
             }
 
             recos = get_recommendations(ids_by_cat)
-            prompt = build_prompt(user_text, qloo_results, recos)
+            prompt = build_prompt(qloo_results, recos)
             itinerary = generate_itinerary(prompt)
-            if not itinerary:                itinerary = generate_fallback_itinerary(user_text, extracted_entities_list)
 
         except Exception as e:
             error = f"Error: {e}"
@@ -416,7 +218,9 @@ def trip():
 
 @app.route('/api/test', methods=['GET'])
 def test_api():
-    """Simple test endpoint to verify API is working"""    return jsonify({
+    """Simple test endpoint to verify API is working"""
+    print("🔥 TEST API ENDPOINT CALLED - Backend is working!")
+    return jsonify({
         'success': True,
         'message': 'Backend API is working!',
         'timestamp': int(time.time())
@@ -428,12 +232,21 @@ def weave_journey():
     try:
         print("\n🌟 REAL BACKEND API CALLED - Starting journey weaving...")
         data = request.get_json()
-        user_text = data.get('soulThread', '')        
+        user_text = data.get('soulThread', '')
+        
+        print(f"📝 User input received: {user_text[:100]}...")
+        
         if not user_text:
             return jsonify({'success': False, 'message': 'Soul thread cannot be empty'}), 400
         
-        # Extract entities from user input        extracted_entities_list = extract_entities(user_text)
-        # Search Qloo for each entity        qloo_results = {}
+        # Extract entities from user input
+        print("🔍 Extracting entities from user input...")
+        extracted_entities_list = extract_entities(user_text)
+        print(f"✨ Extracted entities: {extracted_entities_list}")
+
+        # Search Qloo for each entity
+        print("🔎 Searching Qloo API for recommendations...")
+        qloo_results = {}
         for ent in extracted_entities_list:
             res = search_qloo(ent)
             for cat in CATEGORIES:
@@ -446,15 +259,27 @@ def weave_journey():
             cat: list({item["id"]: None for item in qloo_results.get(cat, []) if "id" in item}.keys())
             for cat in CATEGORIES
         }
-        # Get recommendations        recos = get_recommendations(ids_by_cat)
+        print(f"🎯 Found recommendations for categories: {list(ids_by_cat.keys())}")
+
+        # Get recommendations
+        print("🌍 Getting detailed recommendations...")
+        recos = get_recommendations(ids_by_cat)
         
-        # Build prompt and generate itinerary        prompt = build_prompt(user_text, qloo_results, recos)
+        # Build prompt and generate itinerary
+        print("🤖 Generating itinerary with Gemini AI...")
+        prompt = build_prompt(qloo_results, recos)
         
         try:
             itinerary = generate_itinerary(prompt)
-            if not itinerary:                itinerary = generate_fallback_itinerary(user_text, extracted_entities_list)
-            print("🎉 REAL BACKEND SUCCESS - Journey generated successfully!")        except Exception as gemini_error:            # Generate a fallback itinerary based on user input
+            print("🎉 REAL BACKEND SUCCESS - Journey generated successfully!")
+            print(f"📜 Generated itinerary preview: {itinerary[:200]}...")
+        except Exception as gemini_error:
+            print(f"⚠️ Gemini API Error: {str(gemini_error)}")
+            print("🔄 Falling back to mock itinerary...")
+            # Generate a fallback itinerary based on user input
             itinerary = generate_fallback_itinerary(user_text, extracted_entities_list)
+            print("🎭 Mock itinerary generated successfully!")
+
         return jsonify({
             'success': True,
             'itinerary': itinerary,
@@ -462,52 +287,12 @@ def weave_journey():
             'user_input': user_text
         })
 
-    except Exception as e:        return jsonify({
+    except Exception as e:
+        print(f"❌ REAL BACKEND ERROR: {str(e)}")
+        return jsonify({
             'success': False, 
             'message': f'Error generating journey: {str(e)}'
         }), 500
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5001)))
-
-# Add debug endpoint to test prompt generation
-@app.route('/api/debug-prompt', methods=['POST'])
-def debug_prompt():
-    """Debug endpoint to see what prompt is being generated"""
-    try:
-        data = request.get_json()
-        user_text = data.get('soulThread', '')
-        
-        # Extract entities
-        extracted_entities_list = extract_entities(user_text)
-        
-        # Search Qloo
-        qloo_results = {}
-        for ent in extracted_entities_list:
-            res = search_qloo(ent)
-            for cat in CATEGORIES:
-                if cat not in qloo_results:
-                    qloo_results[cat] = []
-                qloo_results[cat].extend(res.get(cat, []))
-
-        # Get recommendations
-        ids_by_cat = {
-            cat: list({item["id"]: None for item in qloo_results.get(cat, []) if "id" in item}.keys())
-            for cat in CATEGORIES
-        }
-        recos = get_recommendations(ids_by_cat)
-        
-        # Build prompt
-        prompt = build_prompt(user_text, qloo_results, recos)
-        
-        return jsonify({
-            'success': True,
-            'user_input': user_text,
-            'extracted_entities': extracted_entities_list,
-            'qloo_results_count': {cat: len(items) for cat, items in qloo_results.items()},
-            'recommendations_count': {cat: len(items) for cat, items in recos.items()},
-            'generated_prompt': prompt[:1000] + "..." if len(prompt) > 1000 else prompt
-        })
-        
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
+    app.run(debug=True, host='0.0.0.0', port=5001)
