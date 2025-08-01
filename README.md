@@ -2,6 +2,17 @@
 
 **Riḥla** (Arabic: رحلة, meaning "journey") is an AI-powered travel itinerary generator that creates personalized, culturally immersive 5-day journeys through Morocco. Using advanced natural language processing and cultural intelligence APIs, Riḥla transforms your travel preferences into mystical, poetic travel experiences.
 
+## 📬 Contact & Notes
+
+This project is currently in its **first beta/demo version**, developed as part of a hackathon submission. Some aspects are still under development and may require further customization or improvement.
+
+If you face any issues during installation or testing, feel free to contact me:
+
+- 📧 **Email**: hamzamraizik2004@gmail.com 
+
+Your feedback is highly appreciated!
+
+
 ## ✨ Features
 
 - **AI-Powered Itinerary Generation**: Uses Google Gemini AI to create personalized travel experiences
