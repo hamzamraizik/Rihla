@@ -6,10 +6,11 @@
 
 This project is currently in its **first beta/demo version**, developed as part of a hackathon submission. Some aspects are still under development and may require further customization or improvement.
 
+[Demo](https://host-test-1-q5cc.onrender.com/)
+
 If you face any issues during installation or testing, feel free to contact me:
 
 - 📧 **Email**: hamzamraizik2004@gmail.com 
-
 Your feedback is highly appreciated!
 
 
